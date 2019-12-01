@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+    <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_post" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            />
+
+<!--    <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/bottom_bar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:cardBackgroundColor="@color/colorPrimary"-->
+<!--            >-->
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
+
+
+<!--            <TextView-->
+<!--                    android:id="@+id/comments_count"-->
+<!--                    style="@style/meta_large"-->
+<!--                    android:text="?"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/downvotes_ic"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--            <ImageView-->
+<!--                    android:id="@+id/comments_ic"-->
+<!--                    style="@style/icon"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:src="@drawable/ic_comments"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/comments_count"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--            <ImageView-->
+<!--                    android:id="@+id/downvotes_ic"-->
+<!--                    style="@style/icon"-->
+<!--                    android:src="@drawable/ic_thumbs_down"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.44"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--            <TextView-->
+<!--                    android:id="@+id/downvotes_count"-->
+<!--                    style="@style/meta_large"-->
+<!--                    android:text="?"-->
+<!--                    android:textColor="@color/colorAccent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/downvotes_ic"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--            <ImageView-->
+<!--                    android:id="@+id/upvotes_ic"-->
+<!--                    style="@style/icon"-->
+<!--                    android:src="@drawable/ic_thumbs_up"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.56"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--            <TextView-->
+<!--                    android:id="@+id/upvotes_count"-->
+<!--                    style="@style/meta_large"-->
+<!--                    android:text="?"-->
+<!--                    android:textColor="@color/green"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/upvotes_ic"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--            <ImageView-->
+<!--                    android:id="@+id/views_ic"-->
+<!--                    style="@style/icon"-->
+<!--                    android:src="@drawable/ic_eye"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/upvotes_ic"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--            <TextView-->
+<!--                    android:id="@+id/views_count"-->
+<!--                    style="@style/meta_large"-->
+<!--                    android:text="?"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/views_ic"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--    </androidx.cardview.widget.CardView>-->
+</androidx.constraintlayout.widget.ConstraintLayout>

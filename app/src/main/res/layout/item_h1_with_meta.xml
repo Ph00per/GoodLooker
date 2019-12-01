@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+    <TextView
+            android:id="@+id/header_text"
+            style="@style/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Гиря: особенности, польза от занятий, видео с гирей, подборка упражнений + готовый план"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+            android:id="@+id/date_icon"
+            style="@style/icon_meta"
+            android:src="@drawable/ic_date"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_text" />
+
+    <TextView
+            android:id="@+id/date"
+            style="@style/meta"
+            android:text="23.02.1999"
+            app:layout_constraintBottom_toBottomOf="@id/date_icon"
+            app:layout_constraintStart_toEndOf="@id/date_icon"
+            app:layout_constraintTop_toTopOf="@id/date_icon" />
+
+    <ImageView
+            android:id="@+id/time_ic"
+            style="@style/icon_meta"
+            android:src="@drawable/ic_time"
+            app:layout_constraintStart_toEndOf="@id/date"
+            app:layout_constraintTop_toTopOf="@id/date"
+            app:layout_constraintBottom_toBottomOf="@id/date" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

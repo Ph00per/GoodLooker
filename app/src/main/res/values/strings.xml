@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">GoodLooker</string>
+    <string name="news">Новости</string>
+    <string name="coaches">Тренеры</string>
+    <string name="workout">Упражнения</string>
+    <string name="equipment">Инвентарь</string>
+    <string name="training_program">Программы</string>
+    <string name="healthy_food">Спортпит</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="agree_terms_privacy">By continuing, you agree to our &lt;a href=http://link1/terms>Terms of Use&lt;/a> and read the &lt;a href=http://link1/privacy>Privacy Policy&lt;/a></string>
+</resources>
