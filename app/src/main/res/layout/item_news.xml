@@ -77,7 +77,7 @@
 
     <ImageView
             android:id="@+id/post_img"
-            style="@style/fullWidthImg"
+            style="@style/full_width_img"
             android:layout_marginTop="12dp"
             android:src="@drawable/default_item_image"
             app:layout_constraintEnd_toEndOf="parent"
