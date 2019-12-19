@@ -1,6 +1,5 @@
 package com.phooper.goodlooker.presentation.news.feedlist
 
-import android.util.Log
 import com.example.delegateadapter.delegate.diff.IComparableItem
 import com.phooper.goodlooker.App
 import com.phooper.goodlooker.Screens
@@ -12,8 +11,9 @@ import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
+
 @InjectViewState
-class FeedlistPresenter : MvpPresenter<FeedlistView>() {
+class FeedlistPresenter(private val siteCat: Int) : MvpPresenter<FeedlistView>() {
 
     @Inject
     lateinit var router: Router
@@ -34,10 +34,15 @@ class FeedlistPresenter : MvpPresenter<FeedlistView>() {
             3 to "sportpit/page/",
             4 to "pitanie/page/",
             5 to "youtube-trenirovki/page/",
-            6 to "/sportivnaya-odezhda/page"
+            6 to "/sportivnaya-odezhda/page/"
         )
 
-    fun refreshData(category: Int) {
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        refreshData()
+    }
+
+    fun refreshData() {
         viewState.apply {
             startRefreshing()
             removeOnScrollListenerRV()
@@ -46,7 +51,7 @@ class FeedlistPresenter : MvpPresenter<FeedlistView>() {
         page = 1
 
         CoroutineScope(Dispatchers.IO).launch {
-            val result = async { getData(category) }
+            val result = async { getData() }
             listNews.addAll(result.await())
             withContext(Dispatchers.Main) {
                 viewState.apply {
@@ -58,7 +63,7 @@ class FeedlistPresenter : MvpPresenter<FeedlistView>() {
         }
     }
 
-    private fun loadMoreData(category: Int, itemCount: Int) {
+    private fun loadMoreData(itemCount: Int) {
         viewState.apply {
             removeOnScrollListenerRV()
             listNews.add(itemCount, LoadingItemViewModel())
@@ -67,7 +72,7 @@ class FeedlistPresenter : MvpPresenter<FeedlistView>() {
         }
         ++page
         CoroutineScope(Dispatchers.IO).launch {
-            val result = async { getData(category) }
+            val result = async { getData() }
             listNews.addAll(result.await())
             withContext(Dispatchers.Main) {
                 viewState.apply {
@@ -80,21 +85,21 @@ class FeedlistPresenter : MvpPresenter<FeedlistView>() {
         }
     }
 
-    private suspend fun getData(category: Int): List<IComparableItem> {
+    private suspend fun getData(): List<IComparableItem> {
         try {
             return Parser().parseNews(
                 "https://goodlooker.ru/category/" + mapCategories.getValue(
-                    category
+                    siteCat
                 ) + page
             )
         } catch (e: org.jsoup.HttpStatusException) {
-            GlobalScope.launch(Dispatchers.Main) {
+            CoroutineScope(Dispatchers.Main).launch {
                 viewState.apply {
                     showMessage("Вы достигли конца! :)")
                 }
             }
         } catch (e: Exception) {
-            GlobalScope.launch(Dispatchers.Main) {
+            CoroutineScope(Dispatchers.Main).launch {
                 delay(500)
                 showConnectionProblems()
             }
@@ -103,11 +108,18 @@ class FeedlistPresenter : MvpPresenter<FeedlistView>() {
         return emptyList()
     }
 
-    fun onScrolled(dy: Int, total: Int?, lastVisibleItem: Int, category: Int) {
-        if (dy > 0) {
-            Log.d("total: $total", " last: ${lastVisibleItem + 1}")
-            if (lastVisibleItem + 1 == total) {
-                loadMoreData(category, total)
+    fun onScrolled(dy: Int, total: Int?, lastVisibleItem: Int) {
+//            Log.d("total: $total", " last: ${lastVisibleItem + 1}")
+
+        when {
+            (dy > 0) -> {
+                if (lastVisibleItem + 1 == total) {
+                    loadMoreData(total)
+                }
+            }
+
+            (dy < 0) -> {
+
             }
         }
     }
@@ -125,10 +137,10 @@ class FeedlistPresenter : MvpPresenter<FeedlistView>() {
     }
 
 
-    fun retryConnection(siteCat: Int) {
-        listNews.removeAt(listNews.size-1)
+    fun retryConnection() {
+        listNews.removeAt(listNews.size - 1)
         viewState.updateFeedList(listNews)
-        loadMoreData(siteCat, listNews.size)
+        loadMoreData(listNews.size)
     }
 }
 

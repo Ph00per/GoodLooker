@@ -4,23 +4,22 @@
         android:layout_height="70dp"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/white">
-
     <TextView
             android:id="@+id/textView"
-            style="@style/meta"
-            android:textSize="22sp"
+            style="@style/h1"
+            android:textStyle="normal"
+            android:layout_width="wrap_content"
             android:text="Загрузка..."
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.57"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.57"
+            />
     <ProgressBar
             style="@style/progress_bar"
-            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintEnd_toStartOf="@+id/textView"
             app:layout_constraintTop_toTopOf="@+id/textView"
-            android:layout_margin="20dp"/>
+            android:layout_margin="@dimen/margin_padding_size_medium"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

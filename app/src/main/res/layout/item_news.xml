@@ -8,11 +8,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         android:background="@color/white"
-        android:paddingBottom="28dp">
+        android:paddingBottom="@dimen/margin_padding_size_medium">
 
     <TextView
             android:id="@+id/post_title"
-            style="@style/header"
+            style="@style/h1"
             android:text="Все об углеводах: зачем нужны и правила потребления, простые и сложные углеводы для похудения"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
 
     <TextView
             android:id="@+id/post_date"
-            style="@style/meta"
+            style="@style/text_meta"
             android:text="23.02.1999"
             app:layout_constraintBottom_toBottomOf="@id/post_date_icon"
             app:layout_constraintStart_toEndOf="@id/post_date_icon"
@@ -48,7 +48,7 @@
 
     <TextView
             android:id="@+id/post_comments"
-            style="@style/meta"
+            style="@style/text_meta"
             android:text="3"
             app:layout_constraintBottom_toBottomOf="@id/post_comments_icon"
             app:layout_constraintLeft_toRightOf="@id/post_comments_icon"
@@ -67,7 +67,7 @@
 
     <TextView
             android:id="@+id/post_views"
-            style="@style/meta"
+            style="@style/text_meta"
             android:text="25"
             app:layout_constraintBottom_toBottomOf="@id/post_views_icon"
             app:layout_constraintStart_toEndOf="@id/post_views_icon"
@@ -78,7 +78,6 @@
     <ImageView
             android:id="@+id/post_img"
             style="@style/full_width_img"
-            android:layout_marginTop="12dp"
             android:src="@drawable/default_item_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

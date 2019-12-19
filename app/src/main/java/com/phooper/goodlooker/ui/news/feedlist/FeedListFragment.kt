@@ -13,9 +13,10 @@ import com.phooper.goodlooker.presentation.news.feedlist.FeedlistView
 import com.phooper.goodlooker.ui.global.BaseFragment
 import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.ConnectionRetryItemDelegateAdapter
 import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.LoadingItemDelegateAdapter
-import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.NewsItemDelegateAdapter
+import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.PostItemDelegateAdapter
 import kotlinx.android.synthetic.main.fragment_feedlist.*
 import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 
 abstract class FeedListFragment : BaseFragment(), FeedlistView {
 
@@ -26,13 +27,16 @@ abstract class FeedListFragment : BaseFragment(), FeedlistView {
     @InjectPresenter
     lateinit var presenter: FeedlistPresenter
 
+    @ProvidePresenter
+    fun providePresenter(): FeedlistPresenter = FeedlistPresenter(siteCat)
+
     private val diffAdapter by lazy {
         DiffUtilCompositeAdapter.Builder()
-            .add(NewsItemDelegateAdapter { item ->
+            .add(PostItemDelegateAdapter { item ->
                 presenter.onRVItemClicked(item.linkPost)
             })
             .add(LoadingItemDelegateAdapter())
-            .add(ConnectionRetryItemDelegateAdapter { presenter.retryConnection(siteCat) })
+            .add(ConnectionRetryItemDelegateAdapter { presenter.retryConnection() })
             .build()
     }
 
@@ -55,14 +59,9 @@ abstract class FeedListFragment : BaseFragment(), FeedlistView {
             )
             setProgressBackgroundColorSchemeColor(getColor(context, R.color.colorPrimaryDark))
             setOnRefreshListener {
-                presenter.refreshData(siteCat)
+                presenter.refreshData()
             }
         }
-    }
-
-    override fun onResume() {
-        if (!instanceStateSaved) presenter.refreshData(siteCat)
-        super.onResume()
     }
 
     override fun startRefreshing() {
@@ -98,8 +97,7 @@ abstract class FeedListFragment : BaseFragment(), FeedlistView {
                     presenter.onScrolled(
                         dy,
                         layoutManager?.itemCount,
-                        (layoutManager as LinearLayoutManager).findLastVisibleItemPosition(),
-                        siteCat
+                        (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     )
                 }
             })

@@ -17,7 +17,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.phooper.goodlooker"
-        minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -81,4 +81,11 @@ dependencies {
     implementation "com.github.moxy-community:moxy:2.0.2"
     kapt "com.github.moxy-community:moxy-compiler:2.0.2"
     implementation "com.github.moxy-community:moxy-androidx:2.0.2"
+
+    //Youtube player
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+
+    //PhotoView
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
 }

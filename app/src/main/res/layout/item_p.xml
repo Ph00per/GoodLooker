@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+    <TextView
+            android:id="@+id/text"
+            style="@style/p"
+            android:text="Сейчас гиревой спорт получил распространениеg во всем мире, но особенно он популярен в США. Гири используются американскими спортсменам как в игровых, так и в олимпийских видах спорта. Нередко гиревые упражнения встречаются в кроссфитах и других ультра-интенсивных групповых программах. Например, Крис Хемсворт использовал гири при подготовке ко съемкам в фильме Тор."
+           app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

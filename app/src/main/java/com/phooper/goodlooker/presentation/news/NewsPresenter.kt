@@ -3,8 +3,8 @@ package com.phooper.goodlooker.presentation.news
 import com.phooper.goodlooker.App
 import com.phooper.goodlooker.R
 import com.phooper.goodlooker.ui.news.feedlist.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import moxy.InjectViewState
@@ -68,7 +68,7 @@ class NewsPresenter : MvpPresenter<NewsView>() {
         if (safetyExit == 1) {
             viewState.showMessage("Нажмите еще раз для выхода")
             safetyExit--
-            GlobalScope.launch(Dispatchers.IO) {
+            CoroutineScope(Dispatchers.IO).launch {
                 delay(2000)
                 safetyExit++
             }

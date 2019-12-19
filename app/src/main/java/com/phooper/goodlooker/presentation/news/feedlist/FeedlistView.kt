@@ -6,10 +6,10 @@ import moxy.viewstate.strategy.*
 
 interface FeedlistView : MvpView {
 
-    @StateStrategyType(value = SingleStateStrategy::class)
+    @StateStrategyType(value = SkipStrategy::class)
     fun startRefreshing()
 
-    @StateStrategyType(value = SingleStateStrategy::class)
+    @StateStrategyType(value = SkipStrategy::class)
     fun stopRefreshing()
 
     @StateStrategyType(value = AddToEndSingleStrategy::class)
@@ -24,10 +24,8 @@ interface FeedlistView : MvpView {
     @StateStrategyType(value = OneExecutionStateStrategy::class)
     fun showMessage(msg: String)
 
-//    @StateStrategyType(value = OneExecutionStateStrategy::class)
-//    fun showConnectionProblems()
-
     @StateStrategyType(value = AddToEndSingleStrategy::class)
     fun updateFeedList(listNews: MutableList<IComparableItem>)
+
 
 }

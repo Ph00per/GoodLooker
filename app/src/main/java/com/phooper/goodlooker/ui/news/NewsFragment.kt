@@ -1,7 +1,6 @@
 package com.phooper.goodlooker.ui.news
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -61,10 +60,9 @@ class NewsFragment : BaseFragment(), NewsView {
 
         with(childFragmentManager.beginTransaction()) {
             childFragmentManager.fragments.filter { it != targetFragment }.forEach {
-                Log.d("Hiding", it.toString())
                 hide(it)
                 it.userVisibleHint =
-                    false //since hide doesn't trigger onPause, we use this instead to let the fragment know it is not visible
+                    false
             }
             targetFragment.let {
                 if (it.isAdded) {

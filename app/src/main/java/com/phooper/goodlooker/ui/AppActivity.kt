@@ -1,5 +1,6 @@
 package com.phooper.goodlooker.ui
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -53,6 +54,8 @@ class AppActivity : MvpAppCompatActivity() {
         App.daggerComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_container)
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         if (currentFragment == null) {
             router.replaceScreen(Screens.News)

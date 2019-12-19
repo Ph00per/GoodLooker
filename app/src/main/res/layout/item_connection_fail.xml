@@ -9,7 +9,7 @@
 
     <TextView
             android:id="@+id/textView"
-            style="@style/meta"
+            style="@style/text_meta"
             android:textSize="20sp"
             android:text="Ошибка сети"
             app:layout_constraintBottom_toBottomOf="parent"
