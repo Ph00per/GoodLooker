@@ -6,6 +6,7 @@ import com.phooper.goodlooker.Screens
 import com.phooper.goodlooker.parser.Parser
 import com.phooper.goodlooker.ui.widgets.recyclerview.model.ConnectionRetryItemViewModel
 import com.phooper.goodlooker.ui.widgets.recyclerview.model.LoadingItemViewModel
+import com.phooper.goodlooker.util.Constants.Companion.BASE_URL
 import kotlinx.coroutines.*
 import moxy.InjectViewState
 import moxy.MvpPresenter
@@ -34,7 +35,7 @@ class FeedlistPresenter(private val siteCat: Int) : MvpPresenter<FeedlistView>()
             3 to "sportpit/page/",
             4 to "pitanie/page/",
             5 to "youtube-trenirovki/page/",
-            6 to "/sportivnaya-odezhda/page/"
+            6 to "sportivnaya-odezhda/page/"
         )
 
     override fun onFirstViewAttach() {
@@ -88,7 +89,7 @@ class FeedlistPresenter(private val siteCat: Int) : MvpPresenter<FeedlistView>()
     private suspend fun getData(): List<IComparableItem> {
         try {
             return Parser().parseNews(
-                "https://goodlooker.ru/category/" + mapCategories.getValue(
+                BASE_URL + "category/" + mapCategories.getValue(
                     siteCat
                 ) + page
             )
@@ -110,14 +111,12 @@ class FeedlistPresenter(private val siteCat: Int) : MvpPresenter<FeedlistView>()
 
     fun onScrolled(dy: Int, total: Int?, lastVisibleItem: Int) {
 //            Log.d("total: $total", " last: ${lastVisibleItem + 1}")
-
         when {
             (dy > 0) -> {
                 if (lastVisibleItem + 1 == total) {
                     loadMoreData(total)
                 }
             }
-
             (dy < 0) -> {
 
             }

@@ -1,8 +1,11 @@
 package com.phooper.goodlooker.parser
 
 import com.example.delegateadapter.delegate.diff.IComparableItem
+import com.phooper.goodlooker.entity.Hyperlink
 import com.phooper.goodlooker.ui.widgets.recyclerview.model.*
+import com.phooper.goodlooker.util.Constants.Companion.BASE_URL
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
 
 class Parser {
 
@@ -102,43 +105,80 @@ class Parser {
                     }
                     //Image
                     (it.select("p").select("img")).isNotEmpty() -> {
-                        listPost.add(ImageItemViewModel(it.select("img").attr("src")))
+                        if (it.select("img").attr("src").startsWith("/"))
+                            listPost.add(
+                                ImageItemViewModel(
+                                    BASE_URL + it.select("img").attr(
+                                        "src"
+                                    )
+                                )
+                            )
+                        else
+                            listPost.add(ImageItemViewModel(it.select("img").attr("src")))
                     }
                     //Unordered list
                     (it.select("ul").isNotEmpty()) -> {
-                        it.select("ul").select("li").forEach {
-                            listPost.add(ULItemViewModel(it.text()))
+                        if (it.select("a").isNotEmpty()) {
+                            it.select("ul").select("li").forEach {
+                                listPost.add(ULItemViewModel(it.text(), hyperlinkFinder(it)))
+                            }
+                        } else {
+                            it.select("ul").select("li").forEach {
+                                listPost.add(ULItemViewModel(it.text()))
+                            }
                         }
                     }
                     //Ordered list
                     (it.select("ol").isNotEmpty()) -> {
                         var count = 1
-                        it.select("ol").select("li").forEach {
-                            listPost.add(OLItemViewModel((count++).toString() + ")", it.text()))
+                        if (it.select("a").isNotEmpty()) {
+                            it.select("ol").select("li").forEach {
+                                listPost.add(
+                                    OLItemViewModel(
+                                        (count++).toString() + ")",
+                                        it.text(),
+                                        hyperlinkFinder(it)
+                                    )
+                                )
+                            }
+                        } else {
+                            it.select("ol").select("li").forEach {
+                                listPost.add(OLItemViewModel((count++).toString() + ")", it.text()))
+                            }
                         }
                     }
                     //YouTube link
                     ((it.select("p").select("iframe").attr("src")).isNotEmpty()) -> {
-                        //TODO: Regex for youtube link
-                        listPost.add(
-                            YoutubeItemViewModel(
-                                (("(?im)\\b(?:https?:\\/\\/)?(?:w{3}\\.)?youtu(?:be)?\\.(?:com|be)\\/(?:(?:\\??v=?i?=?\\/?)|watch\\?vi?=|watch\\?.*?&v=|embed\\/|)([A-Z0-9_-]{11})\\S*(?=\\s|\$)")
-                                    .toRegex().find(
-                                        it.select("iframe").attr("src")
-                                    )?.groupValues!![1]
-                                        )
+
+                        (("(?im)\\b(?:https?:\\/\\/)?(?:w{3}\\.)?youtu(?:be)?\\.(?:com|be)\\/(?:(?:\\??v=?i?=?\\/?)|watch\\?vi?=|watch\\?.*?&v=|embed\\/|)([A-Z0-9_-]{11})\\S*(?=\\s|\$)")
+                            .toRegex().find(
+                                it.select("iframe").attr("src")
+                            )?.groupValues?.get(1))?.let {
+                            listPost.add(
+                                YoutubeItemViewModel(it)
                             )
-                        )
+                        }
 
                     }
                     //Paragraph
                     ((it.select("p").select("img")).isEmpty() && it.select("p").isNotEmpty()) -> {
-                        listPost.add(PItemViewModel(it.text()))
+                        if (it.select("a").isNotEmpty()) {
+                            listPost.add(PItemViewModel(it.text(), hyperlinkFinder(it)))
+                        } else {
+                            listPost.add(PItemViewModel(it.text()))
+                        }
                     }
                 }
 
             }
-
         return listPost
     }
+
+    private fun hyperlinkFinder(element: Element) =
+        mutableListOf<Hyperlink>().apply {
+            element.select("a").forEach {
+                this.add(Hyperlink(it.text(), it.attr("href")))
+            }
+        }
+
 }

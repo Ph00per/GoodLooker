@@ -20,4 +20,7 @@ interface PostView : MvpView {
 
     @StateStrategyType(value = SkipStrategy::class)
     fun showProgressBar()
+
+    @StateStrategyType(value = SkipStrategy::class)
+    fun openBrowserLink(link : String?)
 }

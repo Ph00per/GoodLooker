@@ -80,8 +80,8 @@ abstract class FeedListFragment : BaseFragment(), FeedlistView {
         recycler_view.scrollToPosition(pos)
     }
 
-    override fun updateFeedList(list: MutableList<IComparableItem>) {
-        diffAdapter.swapData(list)
+    override fun updateFeedList(listFeed: MutableList<IComparableItem>) {
+        diffAdapter.swapData(listFeed)
     }
 
     override fun removeOnScrollListenerRV() {

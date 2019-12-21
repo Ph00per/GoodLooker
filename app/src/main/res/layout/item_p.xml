@@ -9,9 +9,12 @@
             android:id="@+id/text"
             style="@style/p"
             android:text="Сейчас гиревой спорт получил распространениеg во всем мире, но особенно он популярен в США. Гири используются американскими спортсменам как в игровых, так и в олимпийских видах спорта. Нередко гиревые упражнения встречаются в кроссфитах и других ультра-интенсивных групповых программах. Например, Крис Хемсворт использовал гири при подготовке ко съемкам в фильме Тор."
-           app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:textColorLink="@color/colorAccent"
+            android:textColorHighlight="@color/colorPrimary"
+            android:linksClickable="true"
             />
 
 

@@ -5,18 +5,28 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingTop="@dimen/margin_padding_size_small"
-        android:paddingBottom="@dimen/margin_padding_size_small"
-        >
+        android:paddingBottom="@dimen/margin_padding_size_small">
+
 
     <TextView
-            android:id="@+id/hyper_link"
+            android:id="@+id/text"
             style="@style/p"
-            android:text="Все о функциональных тренировках "
-            android:textAllCaps="true"
+            android:text="Все о функциональных тренировках  "
             android:textColor="@color/colorAccent"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+<!--    <ImageView-->
+<!--            android:id="@+id/goto_ic"-->
+<!--            style="@style/icon_meta"-->
+<!--            android:layout_margin="0dp"-->
+<!--            android:src="@drawable/ic_arrow_forward"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/text"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/text"-->
+<!--            app:layout_constraintTop_toTopOf="@id/text" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

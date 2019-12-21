@@ -25,7 +25,7 @@ interface FeedlistView : MvpView {
     fun showMessage(msg: String)
 
     @StateStrategyType(value = AddToEndSingleStrategy::class)
-    fun updateFeedList(listNews: MutableList<IComparableItem>)
+    fun updateFeedList(listFeed: MutableList<IComparableItem>)
 
 
 }

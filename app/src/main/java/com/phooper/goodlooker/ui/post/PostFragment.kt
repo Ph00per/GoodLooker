@@ -11,6 +11,7 @@ import com.phooper.goodlooker.presentation.post.PostPresenter
 import com.phooper.goodlooker.presentation.post.PostView
 import com.phooper.goodlooker.ui.global.BaseFragment
 import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.*
+import com.phooper.goodlooker.util.openInBrowser
 import com.phooper.goodlooker.util.shareText
 import kotlinx.android.synthetic.main.fragment_feedlist.recycler_view
 import kotlinx.android.synthetic.main.fragment_post.*
@@ -33,13 +34,13 @@ class PostFragment : BaseFragment(), PostView {
             .add(H1ItemDelegateAdapter())
             .add(H2ItemDelegateAdapter())
             .add(H3ItemDelegateAdapter())
-            .add(PItemDelegateAdapter())
+            .add(PItemDelegateAdapter { presenter.linkClicked(it) })
             .add(MetaItemDelegateAdapter())
             .add(ImageItemDelegateAdapter { presenter.showImage(it) })
-            .add(ButtonItemDelegateAdapter { showMessage(it.link) })
-            .add(YoutubeItemDelegateAdapter{presenter.showVideo(it)})
-            .add(ULItemDelegateAdapter())
-            .add(OLItemDelegateAdapter())
+            .add(ButtonItemDelegateAdapter { presenter.linkClicked(it) })
+            .add(YoutubeItemDelegateAdapter { presenter.showVideo(it) })
+            .add(ULItemDelegateAdapter { presenter.linkClicked(it) })
+            .add(OLItemDelegateAdapter { presenter.linkClicked(it) })
             .build()
     }
 
@@ -62,6 +63,10 @@ class PostFragment : BaseFragment(), PostView {
             shareText(arguments?.getString(LINK))
         }
 
+    }
+
+    override fun openBrowserLink(link: String?) {
+        openInBrowser(link)
     }
 
     override fun onBackPressed() {
