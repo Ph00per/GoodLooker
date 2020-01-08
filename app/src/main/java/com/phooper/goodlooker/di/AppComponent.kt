@@ -4,6 +4,7 @@ import com.phooper.goodlooker.presentation.news.NewsPresenter
 import com.phooper.goodlooker.presentation.news.feedlist.FeedlistPresenter
 import com.phooper.goodlooker.presentation.picture.PicturePresenter
 import com.phooper.goodlooker.presentation.post.PostPresenter
+import com.phooper.goodlooker.presentation.search.SearchPresenter
 import com.phooper.goodlooker.presentation.youtube.YoutubeVideoPresenter
 import com.phooper.goodlooker.ui.AppActivity
 import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.ImageItemDelegateAdapter
@@ -22,6 +23,7 @@ interface AppComponent {
     fun inject(presenter: PostPresenter)
     fun inject(presenter: PicturePresenter)
     fun inject(presenter: YoutubeVideoPresenter)
+    fun inject(presenter: SearchPresenter)
 
     fun inject(imageSaver: ImageSaver)
 

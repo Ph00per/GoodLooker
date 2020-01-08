@@ -59,7 +59,7 @@ abstract class FeedListFragment : BaseFragment(), FeedlistView {
             )
             setProgressBackgroundColorSchemeColor(getColor(context, R.color.colorPrimaryDark))
             setOnRefreshListener {
-                presenter.refreshData()
+                presenter.pulledToRefresh()
             }
         }
     }
@@ -76,8 +76,12 @@ abstract class FeedListFragment : BaseFragment(), FeedlistView {
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
     }
 
-    override fun scrollToPos(pos: Int) {
-        recycler_view.scrollToPosition(pos)
+    override fun scrollToBottom() {
+        recycler_view.apply {
+            adapter?.let {
+                scrollToPosition(it.itemCount - 1)
+            }
+        }
     }
 
     override fun updateFeedList(listFeed: MutableList<IComparableItem>) {
@@ -130,11 +134,11 @@ class FitnessProgFeed : FeedListFragment() {
     }
 }
 
-class SportFoodFeed : FeedListFragment() {
+class AdvicesFeed : FeedListFragment() {
     override val siteCat = 3
 
     companion object {
-        fun newInstance(bundle: Bundle? = null) = SportFoodFeed().apply { arguments = bundle }
+        fun newInstance(bundle: Bundle? = null) = AdvicesFeed().apply { arguments = bundle }
     }
 }
 
@@ -154,10 +158,10 @@ class YoutubeTrainFeed : FeedListFragment() {
     }
 }
 
-class SportClothesFeed : FeedListFragment() {
+class UsefullFeed : FeedListFragment() {
     override val siteCat = 6
 
     companion object {
-        fun newInstance(bundle: Bundle? = null) = SportClothesFeed().apply { arguments = bundle }
+        fun newInstance(bundle: Bundle? = null) = UsefullFeed().apply { arguments = bundle }
     }
 }

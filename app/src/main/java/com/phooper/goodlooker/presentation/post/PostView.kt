@@ -23,4 +23,7 @@ interface PostView : MvpView {
 
     @StateStrategyType(value = SkipStrategy::class)
     fun openBrowserLink(link : String?)
+
+    @StateStrategyType(value = AddToEndSingleStrategy::class)
+    fun changeFavouriteBtn(resId : Int)
 }

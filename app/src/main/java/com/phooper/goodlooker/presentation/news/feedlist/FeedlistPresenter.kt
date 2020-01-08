@@ -25,121 +25,154 @@ class FeedlistPresenter(private val siteCat: Int) : MvpPresenter<FeedlistView>()
 
     private var page = 0
 
-    private val listNews = mutableListOf<IComparableItem>()
+    private val listFeed = mutableListOf<IComparableItem>()
 
     private val mapCategories =
         mapOf(
             0 to "uprazhneniya/page/",
             1 to "fitnes-inventar/page/",
             2 to "fitnes-programmy/page/",
-            3 to "sportpit/page/",
+            3 to "fitnes-sovety/page/",
             4 to "pitanie/page/",
             5 to "youtube-trenirovki/page/",
-            6 to "sportivnaya-odezhda/page/"
+            6 to "poleznoe/page/"
         )
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        refreshData()
+        setData(true)
     }
 
-    fun refreshData() {
-        viewState.apply {
-            startRefreshing()
-            removeOnScrollListenerRV()
-        }
-        listNews.clear()
-        page = 1
-
+    private fun setData(isItNewRequest: Boolean) {
         CoroutineScope(Dispatchers.IO).launch {
-            val result = async { getData() }
-            listNews.addAll(result.await())
-            withContext(Dispatchers.Main) {
-                viewState.apply {
-                    stopRefreshing()
-                    updateFeedList(listNews)
-                    addOnScrollListenerRV()
+            if (isItNewRequest) {
+                listFeed.clear()
+                page = 1
+                withContext(Dispatchers.Main) {
+                    viewState.apply {
+                        removeOnScrollListenerRV()
+                        startRefreshing()
+                    }
+                }
+                repeat(5) {
+                    try {
+                        listFeed.addAll(parseData())
+                        withContext(Dispatchers.Main) {
+                            viewState.apply {
+                                updateFeedList(
+                                    listFeed
+                                )
+                                stopRefreshing()
+                                addOnScrollListenerRV()
+                            }
+                        }
+                        return@launch
+                    } catch (e: Exception) {
+                        if (it != 4) {
+                            delay(1000)
+                        } else {
+                            --page
+                            withContext(Dispatchers.Main) {
+                                viewState.apply {
+                                    stopRefreshing()
+                                    updateFeedList(listFeed)
+                                }
+                                showConnectionProblems()
+                            }
+                            return@launch
+                        }
+                    }
+                }
+            } else {
+                listFeed.add(LoadingItemViewModel())
+                val indexOfLoadingElement = listFeed.size - 1
+                ++page
+                withContext(Dispatchers.Main) {
+                    viewState.apply {
+                        updateFeedList(listFeed)
+                        scrollToBottom()
+                    }
+                }
+                repeat(5) {
+                    try {
+                        listFeed.apply {
+                            addAll(parseData())
+                            removeAt(indexOfLoadingElement)
+                        }
+                        withContext(Dispatchers.Main) {
+                            viewState.apply {
+                                updateFeedList(
+                                    listFeed
+                                )
+                                addOnScrollListenerRV()
+                            }
+
+                        }
+                        return@launch
+                    } catch (e: org.jsoup.HttpStatusException) {
+                        withContext(Dispatchers.Main) {
+                            listFeed.removeAt(indexOfLoadingElement)
+                            viewState.apply {
+                                updateFeedList(listFeed)
+                                showMessage("Вы посмотрели все публикации!")
+                            }
+                        }
+                        return@launch
+                    } catch (e: Exception) {
+                        if (it != 4) {
+                            delay(1000)
+                        } else {
+                            --page
+                            withContext(Dispatchers.Main) {
+                                listFeed.removeAt(indexOfLoadingElement)
+                                viewState.updateFeedList(listFeed)
+                                showConnectionProblems()
+                            }
+                            return@launch
+                        }
+                    }
                 }
             }
         }
     }
 
-    private fun loadMoreData(itemCount: Int) {
-        viewState.apply {
-            removeOnScrollListenerRV()
-            listNews.add(itemCount, LoadingItemViewModel())
-            updateFeedList(listNews)
-            scrollToPos(itemCount)
-        }
-        ++page
-        CoroutineScope(Dispatchers.IO).launch {
-            val result = async { getData() }
-            listNews.addAll(result.await())
-            withContext(Dispatchers.Main) {
-                viewState.apply {
-                    listNews.removeAt(itemCount)
-                    if (itemCount != listNews.size) addOnScrollListenerRV()
-                    delay(500)
-                    updateFeedList(listNews)
-                }
-            }
-        }
+
+    private suspend fun parseData() = withContext(Dispatchers.IO) {
+        Parser().parseFeed(
+            BASE_URL + "category/" + mapCategories.getValue(
+                siteCat
+            ) + page
+        )
     }
 
-    private suspend fun getData(): List<IComparableItem> {
-        try {
-            return Parser().parseNews(
-                BASE_URL + "category/" + mapCategories.getValue(
-                    siteCat
-                ) + page
-            )
-        } catch (e: org.jsoup.HttpStatusException) {
-            CoroutineScope(Dispatchers.Main).launch {
-                viewState.apply {
-                    showMessage("Вы достигли конца! :)")
-                }
-            }
-        } catch (e: Exception) {
-            CoroutineScope(Dispatchers.Main).launch {
-                delay(500)
-                showConnectionProblems()
-            }
-            --page
-        }
-        return emptyList()
-    }
 
     fun onScrolled(dy: Int, total: Int?, lastVisibleItem: Int) {
-//            Log.d("total: $total", " last: ${lastVisibleItem + 1}")
-        when {
-            (dy > 0) -> {
-                if (lastVisibleItem + 1 == total) {
-                    loadMoreData(total)
-                }
-            }
-            (dy < 0) -> {
-
-            }
+        if ((dy > 0) && (lastVisibleItem + 1 == total)) {
+            viewState.removeOnScrollListenerRV()
+            setData(false)
         }
     }
 
-    fun onRVItemClicked(link: String) {
-        router.navigateTo(Screens.Post(link))
+    fun onRVItemClicked(postLink: String) {
+        router.navigateTo(Screens.Post(postLink))
     }
 
     private fun showConnectionProblems() {
-        listNews.add(ConnectionRetryItemViewModel())
+        listFeed.add(ConnectionRetryItemViewModel())
         viewState.apply {
-            updateFeedList(listNews)
-            scrollToPos(listNews.count())
+            removeOnScrollListenerRV()
+            updateFeedList(listFeed)
         }
     }
 
-
     fun retryConnection() {
-        listNews.removeAt(listNews.size - 1)
-        viewState.updateFeedList(listNews)
-        loadMoreData(listNews.size)
+        listFeed.removeAt(listFeed.size - 1)
+        viewState.updateFeedList(listFeed)
+        setData(listFeed.isEmpty())
+    }
+
+    fun pulledToRefresh() {
+        setData(true)
     }
 }
 

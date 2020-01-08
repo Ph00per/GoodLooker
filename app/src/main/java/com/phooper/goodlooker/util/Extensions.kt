@@ -1,5 +1,6 @@
 package com.phooper.goodlooker.util
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
@@ -10,6 +11,8 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 
@@ -31,6 +34,22 @@ fun Fragment.openInBrowser(link: String?) {
     link?.let {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
     }
+}
+
+fun EditText.hideKeyboard() {
+    if(this.isFocused) clearFocus()
+    (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+        windowToken,
+        0
+    )
+}
+
+fun EditText.openKeyboard() {
+    if(!this.isFocused) requestFocus()
+    (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(
+        this,
+        0
+    )
 }
 
 fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {

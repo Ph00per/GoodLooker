@@ -1,4 +1,4 @@
-package com.phooper.goodlooker.entity
+package com.phooper.goodlooker.models
 
 data class Hyperlink(val text : String, val link : String) {
 }

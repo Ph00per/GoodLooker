@@ -21,20 +21,3 @@ class App : Application() {
             .build()
     }
 }
-
-//    companion object {
-//         var INSTANCE: App? = null
-//    }
-//
-//    private var cicerone: Cicerone<Router>? = null
-//
-//    override fun onCreate() {
-//        super.onCreate()
-//        if (INSTANCE == null) INSTANCE = this
-//        cicerone = Cicerone.create()
-//    }
-//
-//    fun getNavigatorHolder(): NavigatorHolder = cicerone!!.navigatorHolder
-//
-//    fun getRouter(): Router = cicerone!!.router
-

@@ -19,13 +19,13 @@ interface FeedlistView : MvpView {
     fun addOnScrollListenerRV()
 
     @StateStrategyType(value = SkipStrategy::class)
-    fun scrollToPos(pos : Int)
-
-    @StateStrategyType(value = OneExecutionStateStrategy::class)
-    fun showMessage(msg: String)
+    fun scrollToBottom()
 
     @StateStrategyType(value = AddToEndSingleStrategy::class)
     fun updateFeedList(listFeed: MutableList<IComparableItem>)
+
+    @StateStrategyType(value = OneExecutionStateStrategy::class)
+    fun showMessage(msg: String)
 
 
 }

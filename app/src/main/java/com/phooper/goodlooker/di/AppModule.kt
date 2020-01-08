@@ -1,12 +1,14 @@
 package com.phooper.goodlooker.di
 
 import android.content.Context
-import android.content.pm.PackageManager
-import androidx.core.content.ContextCompat
+import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.phooper.goodlooker.R
+import com.phooper.goodlooker.db.AppDb
+import com.phooper.goodlooker.db.dao.FavouritePostsDao
+import com.phooper.goodlooker.db.dao.SearchHistoryDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -32,4 +34,24 @@ class AppModule(private val context: Context) {
     ): RequestManager =
         Glide.with(context)
             .setDefaultRequestOptions(requestOptions)
+
+    @Provides
+    @Singleton
+    fun provideRoomDataBase(context: Context): AppDb =
+        Room.databaseBuilder(
+            context,
+            AppDb::class.java,
+            "database"
+        ).fallbackToDestructiveMigration().build()
+
+    @Provides
+    @Singleton
+    fun provideSearchHistoryDao(database: AppDb): SearchHistoryDao =
+        database.getSearchHistoryDao()
+
+    @Provides
+    @Singleton
+    fun provideFavouriteLinksDao(database: AppDb): FavouritePostsDao =
+        database.getFavouriteLinksDao()
+
 }

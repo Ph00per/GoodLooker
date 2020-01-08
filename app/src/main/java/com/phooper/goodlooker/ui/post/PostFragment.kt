@@ -3,6 +3,7 @@ package com.phooper.goodlooker.ui.post
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
 import com.example.delegateadapter.delegate.diff.IComparableItem
@@ -11,6 +12,7 @@ import com.phooper.goodlooker.presentation.post.PostPresenter
 import com.phooper.goodlooker.presentation.post.PostView
 import com.phooper.goodlooker.ui.global.BaseFragment
 import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.*
+import com.phooper.goodlooker.ui.widgets.recyclerview.model.PostItemViewModel
 import com.phooper.goodlooker.util.openInBrowser
 import com.phooper.goodlooker.util.shareText
 import kotlinx.android.synthetic.main.fragment_feedlist.recycler_view
@@ -27,7 +29,7 @@ class PostFragment : BaseFragment(), PostView {
     lateinit var presenter: PostPresenter
 
     @ProvidePresenter
-    fun providePresenter(): PostPresenter = PostPresenter(arguments?.getString(LINK))
+    fun providePresenter(): PostPresenter = PostPresenter(arguments?.getString(LINK)!!)
 
     private val diffAdapter by lazy {
         DiffUtilCompositeAdapter.Builder()
@@ -41,6 +43,7 @@ class PostFragment : BaseFragment(), PostView {
             .add(YoutubeItemDelegateAdapter { presenter.showVideo(it) })
             .add(ULItemDelegateAdapter { presenter.linkClicked(it) })
             .add(OLItemDelegateAdapter { presenter.linkClicked(it) })
+            .add(ConnectionRetryItemDelegateAdapter{presenter.retryConnection()})
             .build()
     }
 
@@ -63,6 +66,9 @@ class PostFragment : BaseFragment(), PostView {
             shareText(arguments?.getString(LINK))
         }
 
+        favour_btn.setOnClickListener {
+            presenter.favourBtnOnClicked()
+        }
     }
 
     override fun openBrowserLink(link: String?) {
@@ -89,12 +95,21 @@ class PostFragment : BaseFragment(), PostView {
         progress_bar.visibility = View.VISIBLE
     }
 
+    override fun changeFavouriteBtn(resId: Int) {
+        favour_btn.setImageDrawable(
+            ContextCompat.getDrawable(
+                context!!,
+                resId
+            )
+        )
+    }
+
     companion object {
         private const val LINK = "link"
-        fun create(linkPost: String) =
+        fun create(postLink: String) =
             PostFragment().apply {
                 arguments = Bundle().apply {
-                    putString(LINK, linkPost)
+                    putString(LINK, postLink)
                 }
             }
     }

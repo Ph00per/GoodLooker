@@ -2,6 +2,7 @@ package com.phooper.goodlooker.presentation.news
 
 import com.phooper.goodlooker.App
 import com.phooper.goodlooker.R
+import com.phooper.goodlooker.Screens
 import com.phooper.goodlooker.ui.news.feedlist.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,20 +31,20 @@ class NewsPresenter : MvpPresenter<NewsView>() {
         0 to WorkoutFeed.newInstance(),
         1 to FitnessEquipFeed.newInstance(),
         2 to FitnessProgFeed.newInstance(),
-        3 to SportFoodFeed.newInstance(),
+        3 to AdvicesFeed.newInstance(),
         4 to HealthyFoodFeed.newInstance(),
         5 to YoutubeTrainFeed.newInstance(),
-        6 to SportClothesFeed.newInstance()
+        6 to UsefullFeed.newInstance()
     )
 
     private val mapIcons = mapOf(
         0 to R.drawable.ic_workout,
         1 to R.drawable.ic_equipment,
         2 to R.drawable.ic_training_program,
-        3 to R.drawable.ic_sport_food,
+        3 to R.drawable.ic_paper,
         4 to R.drawable.ic_healthy_food,
         5 to R.drawable.ic_youtube,
-        6 to R.drawable.ic_sport_clothes
+        6 to R.drawable.ic_heart
     )
 
     override fun onFirstViewAttach() {
@@ -75,6 +76,10 @@ class NewsPresenter : MvpPresenter<NewsView>() {
         } else {
             router.exit()
         }
+    }
+
+    fun searchButtonClicked() {
+        router.navigateTo(Screens.Search)
     }
 }
 

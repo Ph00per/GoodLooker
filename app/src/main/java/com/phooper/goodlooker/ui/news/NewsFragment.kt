@@ -22,7 +22,10 @@ class NewsFragment : BaseFragment(), NewsView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initViews()
+    }
 
+    private fun initViews() {
         //Spinner init
         drop_down_menu.apply {
             adapter = ArrayAdapter(
@@ -44,6 +47,11 @@ class NewsFragment : BaseFragment(), NewsView {
                     presenter.toolbarItemSelected(position)
                 }
             }
+        }
+
+        //Search btn init
+        search_btn.setOnClickListener {
+            presenter.searchButtonClicked()
         }
     }
 
