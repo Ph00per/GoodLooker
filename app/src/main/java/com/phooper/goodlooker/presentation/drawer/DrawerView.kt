@@ -8,7 +8,7 @@ import moxy.viewstate.strategy.StateStrategyType
 
 interface DrawerView : MvpView {
     @StateStrategyType(value = AddToEndSingleStrategy::class)
-    fun onScreenChanged(index: Int)
+    fun selectMenuItem(index: Int)
 
     @StateStrategyType(value = SkipStrategy::class)
     fun showMessage(msg: String)

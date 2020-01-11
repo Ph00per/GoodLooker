@@ -54,7 +54,7 @@ class DrawerPresenter : MvpPresenter<DrawerView>() {
                     requestedScreen
                 )
             ) {
-                viewState.onScreenChanged(category)
+                viewState.selectMenuItem(category)
                 router.backTo(
                     requestedScreen
 
@@ -68,7 +68,7 @@ class DrawerPresenter : MvpPresenter<DrawerView>() {
                     }
                 }
             } else {
-                viewState.onScreenChanged(category)
+                viewState.selectMenuItem(category)
                 router.navigateTo(
                     requestedScreen
                 )
@@ -95,6 +95,10 @@ class DrawerPresenter : MvpPresenter<DrawerView>() {
             currentScreens.removeAt(currentScreens.size - 1)
             router.exit()
         }
+    }
+
+    fun onScreenChanged(index: Int) {
+        viewState.selectMenuItem(index)
     }
 }
 
