@@ -40,4 +40,7 @@
 
     <!-- Line Height sizes -->
     <dimen name="line_height_size">24sp</dimen>
+
+
+    <dimen name="navigation_drawer_width">300dp</dimen>
 </resources>

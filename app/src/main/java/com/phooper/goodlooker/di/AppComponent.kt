@@ -1,7 +1,7 @@
 package com.phooper.goodlooker.di
 
-import com.phooper.goodlooker.presentation.news.NewsPresenter
-import com.phooper.goodlooker.presentation.news.feedlist.FeedlistPresenter
+import com.phooper.goodlooker.presentation.drawer.DrawerPresenter
+import com.phooper.goodlooker.presentation.feedlist.FeedlistPresenter
 import com.phooper.goodlooker.presentation.picture.PicturePresenter
 import com.phooper.goodlooker.presentation.post.PostPresenter
 import com.phooper.goodlooker.presentation.search.SearchPresenter
@@ -14,11 +14,11 @@ import com.phooper.goodlooker.util.ImageSaver
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = [AppModule::class, NavigationModule::class])
+@Component(modules = [AppModule::class, GlobalNavigationModule::class])
 @Singleton
 interface AppComponent {
     fun inject(activity: AppActivity)
-    fun inject(presenter: NewsPresenter)
+    fun inject(presenter: DrawerPresenter)
     fun inject(presenter: FeedlistPresenter)
     fun inject(presenter: PostPresenter)
     fun inject(presenter: PicturePresenter)

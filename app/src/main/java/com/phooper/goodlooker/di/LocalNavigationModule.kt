@@ -8,14 +8,14 @@ import ru.terrakok.cicerone.Router
 import javax.inject.Singleton
 
 @Module
-class NavigationModule {
-    private val cicerone = Cicerone.create()
+class LocalNavigationModule {
+    private val localCicerone = Cicerone.create()
 
     @Provides
     @Singleton
-    fun provideRouter(): Router = cicerone.router
+    fun provideLocalRouter(): Router = localCicerone.router
 
     @Provides
     @Singleton
-    fun provideNavigatorHolder(): NavigatorHolder = cicerone.navigatorHolder
+    fun provideLocalNavigatorHolder(): NavigatorHolder = localCicerone.navigatorHolder
 }

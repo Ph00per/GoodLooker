@@ -100,4 +100,10 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.2.3"
 
+    //Support Design
+    implementation 'com.google.android.material:material:1.0.0'
+
+    //MemoryLeak
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
+
 }

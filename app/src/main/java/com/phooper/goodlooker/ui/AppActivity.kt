@@ -58,7 +58,7 @@ class AppActivity : MvpAppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         if (currentFragment == null) {
-            router.replaceScreen(Screens.News)
+            router.replaceScreen(Screens.Drawer)
         }
     }
 

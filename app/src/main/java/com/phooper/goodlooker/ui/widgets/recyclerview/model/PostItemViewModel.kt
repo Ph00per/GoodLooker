@@ -5,7 +5,6 @@ import android.widget.ImageView
 import com.example.delegateadapter.delegate.diff.IComparableItem
 import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 class PostItemViewModel(
     val title: String,
     val date: String,
@@ -13,7 +12,7 @@ class PostItemViewModel(
     val views: String,
     val imageLink: String,
     val linkPost: String
-) : IComparableItem, Parcelable {
+) : IComparableItem{
 
     override fun id(): Any = linkPost
 

@@ -36,7 +36,7 @@ interface SearchView : MvpView {
     @StateStrategyType(value = SkipStrategy::class)
     fun startLoading()
 
-    @StateStrategyType(value = SkipStrategy::class)
+    @StateStrategyType(value = AddToEndSingleStrategy::class)
     fun stopLoading()
 
     @StateStrategyType(value = AddToEndSingleStrategy::class)

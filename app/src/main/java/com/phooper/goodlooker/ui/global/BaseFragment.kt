@@ -1,11 +1,12 @@
 package com.phooper.goodlooker.ui.global
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.phooper.goodlooker.App
 import moxy.MvpAppCompatFragment
+
 
 abstract class BaseFragment : MvpAppCompatFragment() {
     abstract val layoutRes: Int
@@ -17,4 +18,6 @@ abstract class BaseFragment : MvpAppCompatFragment() {
     ): View? = inflater.inflate(layoutRes, container, false)
 
     open fun onBackPressed() {}
+
+
 }

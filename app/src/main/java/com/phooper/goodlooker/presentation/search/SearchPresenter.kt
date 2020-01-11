@@ -149,110 +149,109 @@ class SearchPresenter : MvpPresenter<SearchView>() {
                                     updateFeedList(
                                         listFeed
                                     )
-                                    stopLoading()}
+                                    stopLoading()
                                 }
                             }
-                            return@launch
+                        }
+                        return@launch
 
-                        } catch (e: Exception) {
-                            if (it != 4) {
-                                delay(1000)
-                            } else {
-                                --page
-                                withContext(Dispatchers.Main) {
-                                    viewState.apply {
-                                        stopLoading()
-                                        updateFeedList(listFeed)
-                                    }
-                                    showConnectionProblems()
-                                }
-                                return@launch
-                            }
-                        }
-                    }
-                } else {
-                    listFeed.add(LoadingItemViewModel())
-                    val indexOfLoadingElement = listFeed.size - 1
-                    ++page
-                    withContext(Dispatchers.Main) {
-                        viewState.apply {
-                            updateFeedList(listFeed)
-                            scrollToBottom()
-                        }
-                    }
-                    repeat(5) {
-                        try {
-                            listFeed.apply {
-                                addAll(parseData())
-                                removeAt(indexOfLoadingElement)
-                            }
+                    } catch (e: Exception) {
+                        if (it != 4) {
+                            delay(1000)
+                        } else {
+                            --page
                             withContext(Dispatchers.Main) {
                                 viewState.apply {
-                                    updateFeedList(
-                                        listFeed
-                                    )
-                                    addOnScrollListenerRV()
+                                    stopLoading()
+                                    updateFeedList(listFeed)
                                 }
-
+                                showConnectionProblems()
                             }
                             return@launch
-                        } catch (e: org.jsoup.HttpStatusException) {
+                        }
+                    }
+                }
+            } else {
+                listFeed.add(LoadingItemViewModel())
+                val indexOfLoadingElement = listFeed.size - 1
+                ++page
+                withContext(Dispatchers.Main) {
+                    viewState.apply {
+                        updateFeedList(listFeed)
+                        scrollToBottom()
+                    }
+                }
+                repeat(5) {
+                    try {
+                        listFeed.apply {
+                            addAll(parseData())
+                            removeAt(indexOfLoadingElement)
+                        }
+                        withContext(Dispatchers.Main) {
+                            viewState.apply {
+                                updateFeedList(
+                                    listFeed
+                                )
+                                addOnScrollListenerRV()
+                            }
+
+                        }
+                        return@launch
+                    } catch (e: org.jsoup.HttpStatusException) {
+                        withContext(Dispatchers.Main) {
+                            listFeed.removeAt(indexOfLoadingElement)
+                            viewState.apply {
+                                updateFeedList(listFeed)
+                                showMessage("Вы посмотрели все публикации!")
+                            }
+                        }
+                        return@launch
+                    } catch (e: Exception) {
+                        if (it != 4) {
+                            delay(1000)
+                        } else {
+                            --page
                             withContext(Dispatchers.Main) {
                                 listFeed.removeAt(indexOfLoadingElement)
-                                viewState.apply {
-                                    updateFeedList(listFeed)
-                                    showMessage("Вы посмотрели все публикации!")
-                                }
+                                viewState.updateFeedList(listFeed)
+                                showConnectionProblems()
                             }
                             return@launch
-                        } catch (e: Exception) {
-                            if (it != 4) {
-                                delay(1000)
-                            } else {
-                                --page
-                                withContext(Dispatchers.Main) {
-                                    listFeed.removeAt(indexOfLoadingElement)
-                                    viewState.updateFeedList(listFeed)
-                                    showConnectionProblems()
-                                }
-                                return@launch
-                            }
                         }
                     }
                 }
             }
         }
+    }
 
+    private suspend fun parseData() = withContext(Dispatchers.IO) {
+        Parser().parseSearchFeed(
+            Constants.BASE_URL + "page/" + page + "?s=" + currentSearchText
+        )
+    }
 
-        private suspend fun parseData() = withContext(Dispatchers.IO) {
-            Parser().parseSearchFeed(
-                Constants.BASE_URL + "page/" + page + "?s=" + currentSearchText
-            )
-        }
-
-
-        fun onScrolled(dy: Int, total: Int?, lastVisibleItem: Int) {
-            if ((dy > 0) && (lastVisibleItem + 1 == total)) {
-                viewState.removeOnScrollListenerRV()
-                setData(currentSearchText, false)
-            }
-        }
-
-        fun onPostClicked(postLink: String) {
-            router.navigateTo(Screens.Post(postLink))
-        }
-
-        private fun showConnectionProblems() {
-            listFeed.add(ConnectionRetryItemViewModel())
-            viewState.apply {
-                removeOnScrollListenerRV()
-                updateFeedList(listFeed)
-            }
-        }
-
-        fun retryConnection() {
-            listFeed.removeAt(listFeed.size - 1)
-            viewState.updateFeedList(listFeed)
-            setData(currentSearchText, listFeed.isEmpty())
+    fun onScrolled(dy: Int, total: Int?, lastVisibleItem: Int) {
+        if ((dy > 0) && (lastVisibleItem + 1 == total)) {
+            viewState.removeOnScrollListenerRV()
+            setData(currentSearchText, false)
         }
     }
+
+    fun onPostClicked(postLink: String) {
+        router.navigateTo(Screens.Post(postLink))
+    }
+
+    private fun showConnectionProblems() {
+        listFeed.add(ConnectionRetryItemViewModel())
+        viewState.apply {
+            removeOnScrollListenerRV()
+            updateFeedList(listFeed)
+        }
+    }
+
+    fun retryConnection() {
+        listFeed.removeAt(listFeed.size - 1)
+        viewState.updateFeedList(listFeed)
+        setData(currentSearchText, listFeed.isEmpty())
+    }
+}

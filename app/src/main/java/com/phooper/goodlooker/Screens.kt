@@ -1,18 +1,58 @@
 package com.phooper.goodlooker
 
-import com.phooper.goodlooker.ui.news.NewsFragment
+import com.phooper.goodlooker.ui.drawer.DrawerFlowFragment
+import com.phooper.goodlooker.ui.feedlist.*
 import com.phooper.goodlooker.ui.picture.PictureFragment
 import com.phooper.goodlooker.ui.post.PostFragment
 import com.phooper.goodlooker.ui.search.SearchFragment
-import com.phooper.goodlooker.ui.widgets.recyclerview.model.PostItemViewModel
 import com.phooper.goodlooker.ui.youtube.YoutubeVideoFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 object Screens {
 
-    object News : SupportAppScreen() {
-        override fun getFragment() = NewsFragment()
+    object Drawer : SupportAppScreen() {
+        override fun getFragment() =
+            DrawerFlowFragment()
     }
+
+    //FeedList//
+
+    object Workout : SupportAppScreen() {
+        override fun getFragment() =
+            WorkoutFeed()
+    }
+
+    object FitnessEquip : SupportAppScreen() {
+        override fun getFragment() =
+            FitnessEquipFeed()
+    }
+
+    object FitnessProg : SupportAppScreen() {
+        override fun getFragment() =
+            FitnessProgFeed()
+    }
+
+    object FitnessAdvices : SupportAppScreen() {
+        override fun getFragment() =
+            FitnessAdvicesFeed()
+    }
+
+    object HealthyFood : SupportAppScreen() {
+        override fun getFragment() =
+            HealthyFoodFeed()
+    }
+
+    object YoutubeGuides : SupportAppScreen() {
+        override fun getFragment() =
+            YoutubeGuidesFeed()
+    }
+
+    object UsefullThings : SupportAppScreen() {
+        override fun getFragment() =
+            UsefullThingsFeed()
+    }
+
+    ////////////////////
 
     object Search : SupportAppScreen() {
         override fun getFragment() = SearchFragment()
