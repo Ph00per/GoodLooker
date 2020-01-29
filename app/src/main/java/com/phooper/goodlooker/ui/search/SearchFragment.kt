@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
 import com.example.delegateadapter.delegate.diff.IComparableItem
+import com.muddzdev.styleabletoast.StyleableToast
 import com.phooper.goodlooker.R
 import com.phooper.goodlooker.adapters.*
 import com.phooper.goodlooker.entity.SearchHistory
@@ -126,7 +127,7 @@ class SearchFragment : BaseFragment(), SearchView {
     }
 
     override fun showMessage(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        StyleableToast.makeText(context!!, msg, R.style.toast).show()
     }
 
     override fun onBackPressed() {

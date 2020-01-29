@@ -6,9 +6,9 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.RequestBuilder
+import com.muddzdev.styleabletoast.StyleableToast
 import com.phooper.goodlooker.R
 import com.phooper.goodlooker.presentation.picture.PicturePresenter
 import com.phooper.goodlooker.presentation.picture.PictureView
@@ -107,7 +107,7 @@ class PictureFragment : BaseFragment(), PictureView {
     }
 
     override fun showMessage(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        StyleableToast.makeText(context!!, msg, R.style.toast).show()
     }
 
     override fun lockOrientation() {

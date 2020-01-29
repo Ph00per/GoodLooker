@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
 import com.example.delegateadapter.delegate.diff.IComparableItem
+import com.muddzdev.styleabletoast.StyleableToast
 import com.phooper.goodlooker.R
 import com.phooper.goodlooker.presentation.feedlist.FeedlistPresenter
 import com.phooper.goodlooker.presentation.feedlist.FeedlistView
@@ -84,8 +85,7 @@ abstract class FeedListFragment : BaseFragment(), FeedlistView {
     }
 
     override fun showMessage(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
-    }
+        StyleableToast.makeText(context!!, msg, R.style.toast).show()    }
 
     override fun setToolbarTitle(title: String) {
         toolbar_label.text = title

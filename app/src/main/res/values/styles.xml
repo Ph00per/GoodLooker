@@ -135,4 +135,15 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">normal</item>
     </style>
+
+    <style name="toast">
+        <item name="stTextColor">@color/white</item>
+        <item name="stTextSize">@dimen/text_size_medium</item>
+        <item name="stColorBackground">@color/colorPrimaryDark</item>
+        <item name="stSolidBackground">true</item>
+        <item name="stStrokeWidth">2dp</item>
+        <item name="stStrokeColor">@color/colorAccent</item>
+        <item name="stLength">SHORT</item>
+        <item name="stRadius">25dp</item>
+    </style>
 </resources>

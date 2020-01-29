@@ -3,7 +3,7 @@ package com.phooper.goodlooker.ui.youtube
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import com.muddzdev.styleabletoast.StyleableToast
 import com.phooper.goodlooker.R
 import com.phooper.goodlooker.presentation.youtube.YoutubeVideoPresenter
 import com.phooper.goodlooker.presentation.youtube.YoutubeVideoView
@@ -62,6 +62,7 @@ class YoutubeVideoFragment : BaseFragment(), YoutubeVideoView {
                                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
                 }
             }
+
             override fun onYouTubePlayerExitFullScreen() {
                 activity?.apply {
                     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -82,7 +83,7 @@ class YoutubeVideoFragment : BaseFragment(), YoutubeVideoView {
     }
 
     override fun showMessage(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        StyleableToast.makeText(context!!, msg, R.style.toast).show()
     }
 
     companion object {

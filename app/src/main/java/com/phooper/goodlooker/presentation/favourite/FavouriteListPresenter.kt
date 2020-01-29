@@ -1,5 +1,6 @@
 package com.phooper.goodlooker.presentation.favourite
 
+import android.util.Log
 import com.phooper.goodlooker.App
 import com.phooper.goodlooker.Screens
 import com.phooper.goodlooker.model.interactor.FavouriteListIneractor
@@ -27,9 +28,8 @@ class FavouriteListPresenter : MvpPresenter<FavouriteListView>() {
     @Inject
     lateinit var favouriteListInteractor: FavouriteListIneractor
 
-
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
+    override fun attachView(view: FavouriteListView?) {
+        super.attachView(view)
         CoroutineScope(Main).launch {
             viewState.apply {
                 setToolbarTitle("Избранное")
@@ -49,6 +49,7 @@ class FavouriteListPresenter : MvpPresenter<FavouriteListView>() {
 
     fun postClicked(link: String) {
         router.navigateTo(Screens.Post(link))
+        onDestroy()
     }
 
     fun searchOnClicked() {

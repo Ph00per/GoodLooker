@@ -2,17 +2,18 @@ package com.phooper.goodlooker.ui.post
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
 import com.example.delegateadapter.delegate.diff.IComparableItem
+import com.muddzdev.styleabletoast.StyleableToast
 import com.phooper.goodlooker.R
 import com.phooper.goodlooker.adapters.*
+import com.phooper.goodlooker.adapters.adapter.H2ItemDelegateAdapter
+import com.phooper.goodlooker.adapters.adapter.H3ItemDelegateAdapter
 import com.phooper.goodlooker.presentation.post.PostPresenter
 import com.phooper.goodlooker.presentation.post.PostView
 import com.phooper.goodlooker.ui.global.BaseFragment
-import com.phooper.goodlooker.adapters.adapter.*
 import com.phooper.goodlooker.util.openInBrowser
 import com.phooper.goodlooker.util.shareText
 import kotlinx.android.synthetic.main.fragment_feedlist.recycler_view
@@ -43,7 +44,7 @@ class PostFragment : BaseFragment(), PostView {
             .add(YoutubeItemDelegateAdapter { presenter.showVideo(it) })
             .add(ULItemDelegateAdapter { presenter.linkClicked(it) })
             .add(OLItemDelegateAdapter { presenter.linkClicked(it) })
-            .add(ConnectionRetryItemDelegateAdapter{presenter.retryConnection()})
+            .add(ConnectionRetryItemDelegateAdapter { presenter.retryConnection() })
             .build()
     }
 
@@ -80,7 +81,7 @@ class PostFragment : BaseFragment(), PostView {
     }
 
     override fun showMessage(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        StyleableToast.makeText(context!!, msg, R.style.toast).show()
     }
 
     override fun fillList(list: List<IComparableItem>) {

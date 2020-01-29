@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.view.forEach
 import androidx.core.view.forEachIndexed
+import com.muddzdev.styleabletoast.StyleableToast
 import com.phooper.goodlooker.R
 import com.phooper.goodlooker.presentation.drawer.DrawerPresenter
 import com.phooper.goodlooker.presentation.drawer.DrawerView
@@ -48,6 +49,6 @@ class DrawerFragment : BaseFragment(),
     }
 
     override fun showMessage(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        StyleableToast.makeText(context!!, msg, R.style.toast).show()
     }
 }
