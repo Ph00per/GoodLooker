@@ -19,6 +19,9 @@ class App : Application() {
             .appModule(AppModule(applicationContext))
             .build()
 
-        localNavigationComponent = DaggerLocalNavigationComponent.builder().localNavigationModule(LocalNavigationModule()).build()
+        localNavigationComponent =
+            DaggerLocalNavigationComponent.builder().localNavigationModule(LocalNavigationModule())
+                .build()
 
-}}
+    }
+}

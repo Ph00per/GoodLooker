@@ -1,16 +1,18 @@
 package com.phooper.goodlooker.presentation.post
 
+import android.util.Log
 import com.phooper.goodlooker.App
 import com.phooper.goodlooker.R
 import com.phooper.goodlooker.Screens
-import com.phooper.goodlooker.db.AppDb
-import com.phooper.goodlooker.db.dao.FavouritePostsDao
-import com.phooper.goodlooker.db.entity.FavouritePosts
-import com.phooper.goodlooker.parser.Parser
-import com.phooper.goodlooker.ui.widgets.recyclerview.model.ConnectionRetryItemViewModel
-import com.phooper.goodlooker.ui.widgets.recyclerview.model.PostItemViewModel
+import com.phooper.goodlooker.entity.ConnectionRetryItemViewModel
+import com.phooper.goodlooker.entity.H1ItemViewModel
+import com.phooper.goodlooker.model.interactor.PostInteractor
 import com.phooper.goodlooker.util.Constants.Companion.BASE_URL
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
@@ -27,43 +29,37 @@ class PostPresenter(private val postLink: String) : MvpPresenter<PostView>() {
         App.daggerComponent.inject(this)
     }
 
-    @Inject
-    lateinit var database: AppDb
+    private var postHeader = ""
 
     @Inject
-    lateinit var favouritePostsDao: FavouritePostsDao
-
+    lateinit var postInteractor: PostInteractor
 
     private val mapOfIcon =
         mapOf(false to R.drawable.ic_favour_unchecked, true to R.drawable.ic_favour_checked)
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        loadPost()
-        CoroutineScope(Dispatchers.Main).launch {
+        setPost()
+        CoroutineScope(Main).launch {
             viewState.changeFavouriteBtn(
-                mapOfIcon.getValue(isPostFavourite())
+                mapOfIcon.getValue(withContext(IO) { postInteractor.isPostFavourite(postLink) })
             )
         }
     }
 
-    private fun loadPost() {
-        CoroutineScope(Dispatchers.IO).launch {
-            repeat(7) {
-                try {
-                    withContext(Dispatchers.Main) {
+    private fun setPost() {
+        CoroutineScope(IO).launch {
+            postInteractor.getPostByLink(postLink).let {
+                if (it.isSuccessful) {
+                    postHeader = (it.listContent!![0] as H1ItemViewModel).headerText
+                    withContext(Main) {
                         viewState.apply {
-                            fillList(withContext(Dispatchers.Default) {
-                                Parser().parsePost(
-                                   postLink
-                                )
-                            })
+                            fillList(it.listContent)
                             hideProgressBar()
                         }
                     }
-                    return@repeat
-                } catch (e: Exception) {
-                    if (it != 6) delay(1000) else withContext(Dispatchers.Main) {
+                } else {
+                    withContext(Main) {
                         viewState.apply {
                             fillList(listOf(ConnectionRetryItemViewModel()))
                             hideProgressBar()
@@ -103,46 +99,36 @@ class PostPresenter(private val postLink: String) : MvpPresenter<PostView>() {
     }
 
     fun favourBtnOnClicked() {
-        CoroutineScope(Dispatchers.IO).launch {
-            if (isPostFavourite()) {
-                favouritePostsDao.deleteByLink(postLink)
-                withContext(Dispatchers.Main) {
-                    viewState.apply {
-                        showMessage("Публикация удалена из избранного")
-                        changeFavouriteBtn(mapOfIcon.getValue(false))
+        if (postHeader.isNotEmpty()) {
+            CoroutineScope(IO).launch {
+                if (postInteractor.isPostFavourite(postLink)) {
+                    postInteractor.deletePostFromFav(postLink)
+                    withContext(Main) {
+                        viewState.apply {
+                            showMessage("Публикация удалена из избранного")
+                            changeFavouriteBtn(mapOfIcon.getValue(false))
+                        }
                     }
-                }
-            } else {
-                favouritePostsDao.addNew(
-                    FavouritePosts(
-                        0, postLink
-                    )
-                )
-                withContext(Dispatchers.Main) {
-                    viewState.apply {
-                        showMessage("Публикация добавлена в избранное")
-                        changeFavouriteBtn(mapOfIcon.getValue(true))
+                } else {
+                    postInteractor.addNewFavPost(postLink, postHeader)
+                    withContext(Main) {
+                        viewState.apply {
+                            showMessage("Публикация добавлена в избранное")
+                            changeFavouriteBtn(mapOfIcon.getValue(true))
 
+                        }
                     }
                 }
             }
         }
     }
 
-    private suspend fun isPostFavourite() =
-        withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-            favouritePostsDao.getByLink(postLink)?.let {
-                return@withContext true
-            }
-            false
-        }
-
     fun retryConnection() {
         viewState.apply {
             fillList(emptyList())
             showProgressBar()
         }
-        loadPost()
+        setPost()
     }
 
 

@@ -1,6 +1,7 @@
 package com.phooper.goodlooker
 
 import com.phooper.goodlooker.ui.drawer.DrawerFlowFragment
+import com.phooper.goodlooker.ui.favourite.FavouriteListFragment
 import com.phooper.goodlooker.ui.feedlist.*
 import com.phooper.goodlooker.ui.picture.PictureFragment
 import com.phooper.goodlooker.ui.post.PostFragment
@@ -16,6 +17,11 @@ object Screens {
     }
 
     //FeedList//
+
+    object WholeSite : SupportAppScreen() {
+        override fun getFragment() =
+            WholeSiteFeed()
+    }
 
     object Workout : SupportAppScreen() {
         override fun getFragment() =
@@ -50,6 +56,11 @@ object Screens {
     object UsefullThings : SupportAppScreen() {
         override fun getFragment() =
             UsefullThingsFeed()
+    }
+
+    object FavouriteList : SupportAppScreen() {
+        override fun getFragment() =
+            FavouriteListFragment()
     }
 
     ////////////////////

@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
 import com.example.delegateadapter.delegate.diff.IComparableItem
 import com.phooper.goodlooker.R
-import com.phooper.goodlooker.db.entity.SearchHistory
+import com.phooper.goodlooker.adapters.*
+import com.phooper.goodlooker.entity.SearchHistory
 import com.phooper.goodlooker.presentation.search.SearchPresenter
 import com.phooper.goodlooker.presentation.search.SearchView
 import com.phooper.goodlooker.ui.global.BaseFragment
-import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.*
 import com.phooper.goodlooker.util.hideKeyboard
 import com.phooper.goodlooker.util.openKeyboard
 import kotlinx.android.synthetic.main.fragment_search.*

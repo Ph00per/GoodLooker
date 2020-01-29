@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
 import com.example.delegateadapter.delegate.diff.IComparableItem
 import com.phooper.goodlooker.R
+import com.phooper.goodlooker.adapters.*
 import com.phooper.goodlooker.presentation.post.PostPresenter
 import com.phooper.goodlooker.presentation.post.PostView
 import com.phooper.goodlooker.ui.global.BaseFragment
-import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.*
-import com.phooper.goodlooker.ui.widgets.recyclerview.model.PostItemViewModel
+import com.phooper.goodlooker.adapters.adapter.*
 import com.phooper.goodlooker.util.openInBrowser
 import com.phooper.goodlooker.util.shareText
 import kotlinx.android.synthetic.main.fragment_feedlist.recycler_view

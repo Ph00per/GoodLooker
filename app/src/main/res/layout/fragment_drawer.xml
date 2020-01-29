@@ -34,64 +34,83 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/drawer_header" />
 
-    <LinearLayout
-            android:id="@+id/drawer_menu_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_divider">
 
-        <TextView
-                android:id="@+id/workout_item"
-                style="@style/drawer_item"
-                android:drawableStart="@drawable/ic_workout"
-                android:text="Упражнения" />
+        <LinearLayout
+                android:id="@+id/drawer_menu_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header_divider">
+
+            <TextView
+                    android:id="@+id/all_feed_item"
+                    style="@style/drawer_item"
+                    android:drawableStart="@drawable/ic_feed"
+                    android:text="Все публикации" />
+
+            <TextView
+                    android:id="@+id/workout_item"
+                    style="@style/drawer_item"
+                    android:drawableStart="@drawable/ic_workout"
+                    android:text="Упражнения" />
 
 
-        <TextView
-                android:id="@+id/fitness_equip_item"
-                style="@style/drawer_item"
-                android:drawableStart="@drawable/ic_equipment"
-                android:text="Фитнес - инвентарь" />
+            <TextView
+                    android:id="@+id/fitness_equip_item"
+                    style="@style/drawer_item"
+                    android:drawableStart="@drawable/ic_equipment"
+                    android:text="Фитнес - инвентарь" />
 
 
-        <TextView
-                android:id="@+id/fitness_programs_item"
-                style="@style/drawer_item"
-                android:drawableStart="@drawable/ic_training_program"
-                android:text="Фитнес - программы" />
+            <TextView
+                    android:id="@+id/fitness_programs_item"
+                    style="@style/drawer_item"
+                    android:drawableStart="@drawable/ic_training_program"
+                    android:text="Фитнес - программы" />
 
 
-        <TextView
-                android:id="@+id/fitness_advices_item"
-                style="@style/drawer_item"
-                android:drawableStart="@drawable/ic_paper"
-                android:text="Фитнес - советы" />
+            <TextView
+                    android:id="@+id/fitness_advices_item"
+                    style="@style/drawer_item"
+                    android:drawableStart="@drawable/ic_paper"
+                    android:text="Фитнес - советы" />
 
 
-        <TextView
-                android:id="@+id/healthy_food_item"
-                style="@style/drawer_item"
-                android:drawableStart="@drawable/ic_healthy_food"
-                android:text="Питание" />
+            <TextView
+                    android:id="@+id/healthy_food_item"
+                    style="@style/drawer_item"
+                    android:drawableStart="@drawable/ic_healthy_food"
+                    android:text="Питание" />
 
 
-        <TextView
-                android:id="@+id/youtube_workout_item"
-                style="@style/drawer_item"
-                android:drawableStart="@drawable/ic_youtube"
-                android:text="Youtube - тренировки" />
+            <TextView
+                    android:id="@+id/youtube_workout_item"
+                    style="@style/drawer_item"
+                    android:drawableStart="@drawable/ic_youtube"
+                    android:text="Youtube - тренировки" />
 
 
-        <TextView
-                android:id="@+id/usefull_things_item"
-                style="@style/drawer_item"
-                android:drawableStart="@drawable/ic_heart"
-                android:text="Полезное" />
+            <TextView
+                    android:id="@+id/usefull_things_item"
+                    style="@style/drawer_item"
+                    android:drawableStart="@drawable/ic_heart"
+                    android:text="Полезное" />
 
 
-    </LinearLayout>
-
+            <TextView
+                    android:id="@+id/favourite_posts_item"
+                    style="@style/drawer_item"
+                    android:drawableStart="@drawable/ic_favour_checked"
+                    android:text="Избранное" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,9 +6,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.phooper.goodlooker.R
-import com.phooper.goodlooker.db.AppDb
-import com.phooper.goodlooker.db.dao.FavouritePostsDao
-import com.phooper.goodlooker.db.dao.SearchHistoryDao
+import com.phooper.goodlooker.model.data.db.AppDb
+import com.phooper.goodlooker.model.data.db.dao.FavouritePostsDao
+import com.phooper.goodlooker.model.data.db.dao.SearchHistoryDao
+import com.phooper.goodlooker.model.data.site.Connector
+import com.phooper.goodlooker.model.interactor.FavouriteListIneractor
+import com.phooper.goodlooker.model.interactor.FeedInteractor
+import com.phooper.goodlooker.model.interactor.PostInteractor
+import com.phooper.goodlooker.model.interactor.SearchInteractor
+import com.phooper.goodlooker.util.Constants.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -54,4 +60,23 @@ class AppModule(private val context: Context) {
     fun provideFavouriteLinksDao(database: AppDb): FavouritePostsDao =
         database.getFavouriteLinksDao()
 
+    @Provides
+    @Singleton
+    fun provideConnector() = Connector(BASE_URL)
+
+    @Provides
+    @Singleton
+    fun provideFeedInteractor() = FeedInteractor()
+
+    @Provides
+    @Singleton
+    fun provideSearchInteractor() = SearchInteractor()
+
+    @Provides
+    @Singleton
+    fun providePostInteractor() = PostInteractor()
+
+    @Provides
+    @Singleton
+    fun provideFavouriteListInteractor() = FavouriteListIneractor()
 }

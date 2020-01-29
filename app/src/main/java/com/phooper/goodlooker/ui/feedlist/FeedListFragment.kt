@@ -1,7 +1,5 @@
 package com.phooper.goodlooker.ui.feedlist
 
-import android.content.Context
-import android.content.res.TypedArray
 import android.os.Bundle
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
@@ -15,15 +13,13 @@ import com.phooper.goodlooker.presentation.feedlist.FeedlistPresenter
 import com.phooper.goodlooker.presentation.feedlist.FeedlistView
 import com.phooper.goodlooker.ui.drawer.DrawerFlowFragment
 import com.phooper.goodlooker.ui.global.BaseFragment
-import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.ConnectionRetryItemDelegateAdapter
-import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.LoadingItemDelegateAdapter
-import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.PostItemDelegateAdapter
+import com.phooper.goodlooker.adapters.ConnectionRetryItemDelegateAdapter
+import com.phooper.goodlooker.adapters.LoadingItemDelegateAdapter
+import com.phooper.goodlooker.adapters.PostItemDelegateAdapter
 import kotlinx.android.synthetic.main.fragment_feedlist.*
-import kotlinx.android.synthetic.main.fragment_feedlist.view.*
 import kotlinx.android.synthetic.main.toolbar_hamburger.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
-import kotlin.random.Random
 
 abstract class FeedListFragment : BaseFragment(), FeedlistView {
 
@@ -36,9 +32,6 @@ abstract class FeedListFragment : BaseFragment(), FeedlistView {
 
     @ProvidePresenter
     fun providePresenter(): FeedlistPresenter = FeedlistPresenter(siteCat)
-
-    val set = ConstraintSet()
-
 
     private val diffAdapter by lazy {
         DiffUtilCompositeAdapter.Builder()
@@ -133,63 +126,34 @@ abstract class FeedListFragment : BaseFragment(), FeedlistView {
     }
 }
 
-class WorkoutFeed : FeedListFragment() {
+class WholeSiteFeed : FeedListFragment() {
     override val siteCat = 0
+}
 
-//    companion object {
-//        fun newInstance(bundle: Bundle? = null) = WorkoutFeed().apply { arguments = bundle }
-//    }
-
+class WorkoutFeed : FeedListFragment() {
+    override val siteCat = 1
 }
 
 class FitnessEquipFeed : FeedListFragment() {
-    override val siteCat = 1
-
-//    companion object {
-//        fun newInstance(bundle: Bundle? = null) =
-//            FitnessEquipFeed().apply { arguments = bundle }
-//    }
+    override val siteCat = 2
 }
 
 class FitnessProgFeed : FeedListFragment() {
-    override val siteCat = 2
-
-//    companion object {
-//        fun newInstance(bundle: Bundle? = null) = FitnessProgFeed().apply { arguments = bundle }
-//    }
+    override val siteCat = 3
 }
 
 class FitnessAdvicesFeed : FeedListFragment() {
-    override val siteCat = 3
-
-//    companion object {
-//        fun newInstance(bundle: Bundle? = null) =
-//            FitnessAdvicesFeed().apply { arguments = bundle }
-//    }
+    override val siteCat = 4
 }
 
 class HealthyFoodFeed : FeedListFragment() {
-    override val siteCat = 4
-
-//    companion object {
-//        fun newInstance(bundle: Bundle? = null) = HealthyFoodFeed().apply { arguments = bundle }
-//    }
+    override val siteCat = 5
 }
 
 class YoutubeGuidesFeed : FeedListFragment() {
-    override val siteCat = 5
-
-//    companion object {
-//        fun newInstance(bundle: Bundle? = null) =
-//            YoutubeGuidesFeed().apply { arguments = bundle }
-//    }
+    override val siteCat = 6
 }
 
 class UsefullThingsFeed : FeedListFragment() {
-    override val siteCat = 6
-
-//    companion object {
-//        fun newInstance(bundle: Bundle? = null) =
-//            UsefullThingsFeed().apply { arguments = bundle }
-//    }
+    override val siteCat = 7
 }

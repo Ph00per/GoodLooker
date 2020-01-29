@@ -1,10 +1,9 @@
 package com.phooper.goodlooker.presentation.search
 
 import com.example.delegateadapter.delegate.diff.IComparableItem
-import com.phooper.goodlooker.db.entity.SearchHistory
+import com.phooper.goodlooker.entity.SearchHistory
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
-import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.SkipStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
@@ -12,10 +11,10 @@ interface SearchView : MvpView {
     @StateStrategyType(value = SkipStrategy::class)
     fun showMessage(msg: String)
 
-    @StateStrategyType(value = OneExecutionStateStrategy::class)
+    @StateStrategyType(value = AddToEndSingleStrategy::class)
     fun enterInputMode()
 
-    @StateStrategyType(value = OneExecutionStateStrategy::class)
+    @StateStrategyType(value = AddToEndSingleStrategy::class)
     fun exitInputMode()
 
     @StateStrategyType(value = AddToEndSingleStrategy::class)

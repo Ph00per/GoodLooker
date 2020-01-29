@@ -5,6 +5,7 @@ import androidx.core.view.GravityCompat
 import com.phooper.goodlooker.App
 import com.phooper.goodlooker.R
 import com.phooper.goodlooker.Screens
+import com.phooper.goodlooker.ui.favourite.FavouriteListFragment
 import com.phooper.goodlooker.ui.feedlist.*
 import com.phooper.goodlooker.ui.global.BaseFragment
 import kotlinx.android.synthetic.main.drawer_flow_fragment.*
@@ -51,7 +52,7 @@ class DrawerFlowFragment : BaseFragment() {
                 .replace(R.id.nav_drawer_container, DrawerFragment())
                 .commitNow()
 
-            localRouter.newRootScreen(Screens.Workout)
+            localRouter.newRootScreen(Screens.WholeSite)
 
         } else {
             updateNavDrawer()
@@ -79,13 +80,15 @@ class DrawerFlowFragment : BaseFragment() {
         drawerFragment?.let { drawerFragment ->
             currentFragment?.let {
                 when (it) {
-                    is WorkoutFeed -> drawerFragment.onScreenChanged(0)
-                    is FitnessEquipFeed -> drawerFragment.onScreenChanged(1)
-                    is FitnessProgFeed -> drawerFragment.onScreenChanged(2)
-                    is FitnessAdvicesFeed -> drawerFragment.onScreenChanged(3)
-                    is HealthyFoodFeed -> drawerFragment.onScreenChanged(4)
-                    is YoutubeGuidesFeed -> drawerFragment.onScreenChanged(5)
-                    is UsefullThingsFeed -> drawerFragment.onScreenChanged(6)
+                    is WholeSiteFeed -> drawerFragment.onScreenChanged(0)
+                    is WorkoutFeed -> drawerFragment.onScreenChanged(1)
+                    is FitnessEquipFeed -> drawerFragment.onScreenChanged(2)
+                    is FitnessProgFeed -> drawerFragment.onScreenChanged(3)
+                    is FitnessAdvicesFeed -> drawerFragment.onScreenChanged(4)
+                    is HealthyFoodFeed -> drawerFragment.onScreenChanged(5)
+                    is YoutubeGuidesFeed -> drawerFragment.onScreenChanged(6)
+                    is UsefullThingsFeed -> drawerFragment.onScreenChanged(7)
+                    is FavouriteListFragment -> drawerFragment.onScreenChanged(8)
                 }
             }
         }

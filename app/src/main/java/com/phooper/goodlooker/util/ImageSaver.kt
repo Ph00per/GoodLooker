@@ -21,7 +21,7 @@ class ImageSaver {
         App.daggerComponent.inject(this)
     }
 
-    suspend fun save(img: Bitmap, name: String?) {
+    fun save(img: Bitmap, name: String?) {
         name?.let {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 saveQ(img, it)
@@ -31,7 +31,7 @@ class ImageSaver {
         }
     }
 
-    private suspend fun saveLegacy(img: Bitmap, name: String) {
+    private fun saveLegacy(img: Bitmap, name: String) {
         val storageDir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             , "GoodLooker"
@@ -54,7 +54,7 @@ class ImageSaver {
         )
     }
 
-    private suspend fun saveQ(img: Bitmap, name: String) {
+    private fun saveQ(img: Bitmap, name: String) {
 
         val contentResolver = context.contentResolver
 

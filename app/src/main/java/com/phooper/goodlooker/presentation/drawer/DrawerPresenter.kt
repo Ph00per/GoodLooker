@@ -24,19 +24,19 @@ class DrawerPresenter : MvpPresenter<DrawerView>() {
 
     private var safetyExit = 1
 
-    private var currentCategory = 0
-
     private val mapScreens = mapOf(
-        0 to Screens.Workout,
-        1 to Screens.FitnessEquip,
-        2 to Screens.FitnessProg,
-        3 to Screens.FitnessAdvices,
-        4 to Screens.HealthyFood,
-        5 to Screens.YoutubeGuides,
-        6 to Screens.UsefullThings
+        0 to Screens.WholeSite,
+        1 to Screens.Workout,
+        2 to Screens.FitnessEquip,
+        3 to Screens.FitnessProg,
+        4 to Screens.FitnessAdvices,
+        5 to Screens.HealthyFood,
+        6 to Screens.YoutubeGuides,
+        7 to Screens.UsefullThings,
+        8 to Screens.FavouriteList
     )
 
-    private val currentScreens = mutableListOf<Screen>(Screens.Workout)
+    private val currentScreens = mutableListOf<Screen>(Screens.WholeSite)
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -59,6 +59,7 @@ class DrawerPresenter : MvpPresenter<DrawerView>() {
                     requestedScreen
 
                 )
+                //Removing all screens with higher index than requested screen index
                 currentScreens.filter {
                     currentScreens.indexOf(it) <= currentScreens.indexOf(requestedScreen)
                 }.let {
@@ -72,6 +73,9 @@ class DrawerPresenter : MvpPresenter<DrawerView>() {
                 router.navigateTo(
                     requestedScreen
                 )
+                if (requestedScreen == Screens.FavouriteList) {
+                    return
+                }
                 currentScreens.add(
                     requestedScreen
                 )

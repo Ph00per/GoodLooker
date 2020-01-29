@@ -3,11 +3,15 @@ package com.phooper.goodlooker.presentation.feedlist
 import com.example.delegateadapter.delegate.diff.IComparableItem
 import com.phooper.goodlooker.App
 import com.phooper.goodlooker.Screens
-import com.phooper.goodlooker.parser.Parser
-import com.phooper.goodlooker.ui.widgets.recyclerview.model.ConnectionRetryItemViewModel
-import com.phooper.goodlooker.ui.widgets.recyclerview.model.LoadingItemViewModel
-import com.phooper.goodlooker.util.Constants.Companion.BASE_URL
-import kotlinx.coroutines.*
+import com.phooper.goodlooker.entity.ConnectionRetryItemViewModel
+import com.phooper.goodlooker.entity.LoadingItemViewModel
+import com.phooper.goodlooker.model.interactor.FeedInteractor
+import com.phooper.goodlooker.util.Constants.Companion.NO_MORE_CONTENT_ERROR
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.terrakok.cicerone.Router
@@ -23,145 +27,94 @@ class FeedlistPresenter(private val siteCat: Int) : MvpPresenter<FeedlistView>()
         App.daggerComponent.inject(this)
     }
 
-    private var page = 0
+    @Inject
+    lateinit var feedInteractor: FeedInteractor
 
-    private val listFeed = mutableListOf<IComparableItem>()
+    private var indexOfLoadingElement = 0
 
-    private val mapCategories =
-        mapOf(
-            0 to "uprazhneniya/page/",
-            1 to "fitnes-inventar/page/",
-            2 to "fitnes-programmy/page/",
-            3 to "fitnes-sovety/page/",
-            4 to "pitanie/page/",
-            5 to "youtube-trenirovki/page/",
-            6 to "poleznoe/page/"
-        )
+    private var currentPage = 0
+
+    private val currentListFeed = mutableListOf<IComparableItem>()
 
     private val mapToolbarTitles =
         mapOf(
-            0 to "Упражнения",
-            1 to "Фитнес - инвентарь",
-            2 to "Фитнес - программы",
-            3 to "Фитнес - советы",
-            4 to "Питание",
-            5 to "Youtube - тренировки",
-            6 to "Полезное"
+            0 to "Все публикации",
+            1 to "Упражнения",
+            2 to "Фитнес - инвентарь",
+            3 to "Фитнес - программы",
+            4 to "Фитнес - советы",
+            5 to "Питание",
+            6 to "Youtube - тренировки",
+            7 to "Полезное"
         )
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.setToolbarTitle(mapToolbarTitles.getValue(siteCat))
-        setData(true)
+        CoroutineScope(IO).launch { setNewData() }
     }
 
-    private fun setData(isItNewRequest: Boolean) {
-        CoroutineScope(Dispatchers.IO).launch {
-            if (isItNewRequest) {
-                listFeed.clear()
-                page = 1
-                withContext(Dispatchers.Main) {
-                    viewState.apply {
-                        removeOnScrollListenerRV()
-                        startRefreshing()
-                    }
+    private suspend fun setNewData() {
+        currentListFeed.clear()
+        currentPage = 1
+        withContext(Main) { enterLoadingNewState() }
+        feedInteractor.getFeedByCategoryAndPage(siteCat, currentPage).let {
+            if (it.isSuccessful) {
+                currentListFeed.addAll(it.listContent!!)
+                withContext(Main) {
+                    viewState.updateFeedList(
+                        currentListFeed
+                    )
                 }
-                repeat(5) {
-                    try {
-                        listFeed.addAll(parseData())
-                        withContext(Dispatchers.Main) {
-                            viewState.apply {
-                                updateFeedList(
-                                    listFeed
-                                )
-                                stopRefreshing()
-                                addOnScrollListenerRV()
-                            }
-                        }
-                        return@launch
-                    } catch (e: Exception) {
-                        if (it != 4) {
-                            delay(1000)
-                        } else {
-                            --page
-                            withContext(Dispatchers.Main) {
-                                viewState.apply {
-                                    stopRefreshing()
-                                    updateFeedList(listFeed)
-                                }
-                                showConnectionProblems()
-                            }
-                            return@launch
-                        }
+            } else {
+                withContext(Main) {
+                    showConnectionProblems()
+                }
+            }
+            withContext(Main) { exitLoadingNewState() }
+        }
+    }
+
+    private suspend fun setNextPageData() {
+        ++currentPage
+        withContext(Main) { enterLoadingMoreState() }
+        feedInteractor.getFeedByCategoryAndPage(siteCat, currentPage).let {
+            if (it.isSuccessful) {
+                currentListFeed.addAll(it.listContent!!)
+                withContext(Main) {
+                    viewState.apply {
+                        updateFeedList(
+                            currentListFeed
+                        )
+                        addOnScrollListenerRV()
                     }
                 }
             } else {
-                listFeed.add(LoadingItemViewModel())
-                val indexOfLoadingElement = listFeed.size - 1
-                ++page
-                withContext(Dispatchers.Main) {
-                    viewState.apply {
-                        updateFeedList(listFeed)
-                        scrollToBottom()
-                    }
-                }
-                repeat(5) {
-                    try {
-                        listFeed.apply {
-                            addAll(parseData())
-                            removeAt(indexOfLoadingElement)
-                        }
-                        withContext(Dispatchers.Main) {
+                when (it.error) {
+                    NO_MORE_CONTENT_ERROR -> {
+                        withContext(Main) {
                             viewState.apply {
-                                updateFeedList(
-                                    listFeed
-                                )
-                                addOnScrollListenerRV()
-                            }
-
-                        }
-                        return@launch
-                    } catch (e: org.jsoup.HttpStatusException) {
-                        withContext(Dispatchers.Main) {
-                            listFeed.removeAt(indexOfLoadingElement)
-                            viewState.apply {
-                                updateFeedList(listFeed)
                                 showMessage("Вы посмотрели все публикации!")
                             }
                         }
-                        return@launch
-                    } catch (e: Exception) {
-                        if (it != 4) {
-                            delay(1000)
-                        } else {
-                            --page
-                            withContext(Dispatchers.Main) {
-                                listFeed.removeAt(indexOfLoadingElement)
-                                viewState.updateFeedList(listFeed)
-                                showConnectionProblems()
-                            }
-                            return@launch
+                    }
+                    else -> {
+                        --currentPage
+                        withContext(Main) {
+                            showConnectionProblems()
                         }
                     }
                 }
             }
+            withContext(Main) { exitLoadingMoreState() }
         }
-    }
-
-
-    private suspend fun parseData() = withContext(Dispatchers.IO) {
-        Parser().parseFeed(
-            BASE_URL + "category/" + mapCategories.getValue(
-                siteCat
-            ) + page
-        )
     }
 
 
     fun onScrolled(dy: Int, total: Int?, lastVisibleItem: Int) {
         if ((dy > 0) && (lastVisibleItem + 1 == total)) {
             viewState.removeOnScrollListenerRV()
-            setData(false)
+            CoroutineScope(IO).launch { setNextPageData() }
         }
     }
 
@@ -169,22 +122,59 @@ class FeedlistPresenter(private val siteCat: Int) : MvpPresenter<FeedlistView>()
         router.navigateTo(Screens.Post(postLink))
     }
 
-    private fun showConnectionProblems() {
-        listFeed.add(ConnectionRetryItemViewModel())
+
+    private fun enterLoadingNewState() {
         viewState.apply {
             removeOnScrollListenerRV()
-            updateFeedList(listFeed)
+            startRefreshing()
+        }
+    }
+
+    private fun exitLoadingNewState() {
+        viewState.apply {
+            stopRefreshing()
+            addOnScrollListenerRV()
+        }
+    }
+
+    private fun enterLoadingMoreState() {
+        currentListFeed.add(LoadingItemViewModel())
+        indexOfLoadingElement = currentListFeed.lastIndex
+        viewState.apply {
+            updateFeedList(currentListFeed)
+            scrollToBottom()
+        }
+    }
+
+    private fun exitLoadingMoreState() {
+        currentListFeed.removeAt(indexOfLoadingElement)
+        viewState.apply {
+            updateFeedList(currentListFeed)
+        }
+    }
+
+    private fun showConnectionProblems() {
+        currentListFeed.add(ConnectionRetryItemViewModel())
+        viewState.apply {
+            removeOnScrollListenerRV()
+            updateFeedList(currentListFeed)
         }
     }
 
     fun retryConnection() {
-        listFeed.removeAt(listFeed.size - 1)
-        viewState.updateFeedList(listFeed)
-        setData(listFeed.isEmpty())
+        currentListFeed.removeAt(currentListFeed.lastIndex)
+        viewState.updateFeedList(currentListFeed)
+        CoroutineScope(IO).launch {
+            if (currentListFeed.isEmpty()) {
+                setNewData()
+            } else {
+                setNextPageData()
+            }
+        }
     }
 
     fun pulledToRefresh() {
-        setData(true)
+        CoroutineScope(IO).launch { setNewData() }
     }
 
     fun searchOnClicked() {

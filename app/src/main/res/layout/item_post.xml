@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/margin_padding_size_medium">
+
+    <TextView
+            android:id="@+id/post_title"
+            style="@style/h1"
+            android:text="Все об углеводах: зачем нужны и правила потребления, простые и сложные углеводы для похудения"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+            android:id="@+id/post_date_icon"
+            style="@style/icon_meta"
+            android:src="@drawable/ic_date"
+            app:layout_constraintBottom_toTopOf="@id/post_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_title" />
+
+    <TextView
+            android:id="@+id/post_date"
+            style="@style/text_meta"
+            android:text="23.02.1999"
+            app:layout_constraintBottom_toBottomOf="@id/post_date_icon"
+            app:layout_constraintStart_toEndOf="@id/post_date_icon"
+            app:layout_constraintTop_toTopOf="@id/post_date_icon"
+
+
+            />
+
+    <ImageView
+            android:id="@+id/post_views_icon"
+            style="@style/icon_meta"
+            android:src="@drawable/ic_eye"
+            app:layout_constraintBottom_toBottomOf="@id/post_date"
+            app:layout_constraintLeft_toRightOf="@id/post_date"
+            app:layout_constraintTop_toTopOf="@id/post_date" />
+
+    <TextView
+            android:id="@+id/post_views"
+            style="@style/text_meta"
+            android:text="25"
+            app:layout_constraintBottom_toBottomOf="@id/post_views_icon"
+            app:layout_constraintStart_toEndOf="@id/post_views_icon"
+            app:layout_constraintTop_toTopOf="@id/post_views_icon"
+
+            />
+
+    <ImageView
+            android:id="@+id/post_img"
+            style="@style/full_width_img"
+            android:src="@drawable/default_item_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_date" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

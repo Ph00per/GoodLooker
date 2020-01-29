@@ -7,9 +7,15 @@ import com.phooper.goodlooker.presentation.post.PostPresenter
 import com.phooper.goodlooker.presentation.search.SearchPresenter
 import com.phooper.goodlooker.presentation.youtube.YoutubeVideoPresenter
 import com.phooper.goodlooker.ui.AppActivity
-import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.ImageItemDelegateAdapter
-import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.PostItemDelegateAdapter
-import com.phooper.goodlooker.ui.widgets.recyclerview.adapter.YoutubeItemDelegateAdapter
+import com.phooper.goodlooker.adapters.ImageItemDelegateAdapter
+import com.phooper.goodlooker.adapters.PostItemDelegateAdapter
+import com.phooper.goodlooker.adapters.YoutubeItemDelegateAdapter
+import com.phooper.goodlooker.entity.FavouritePost
+import com.phooper.goodlooker.model.interactor.FavouriteListIneractor
+import com.phooper.goodlooker.model.interactor.FeedInteractor
+import com.phooper.goodlooker.model.interactor.PostInteractor
+import com.phooper.goodlooker.model.interactor.SearchInteractor
+import com.phooper.goodlooker.presentation.favourite.FavouriteListPresenter
 import com.phooper.goodlooker.util.ImageSaver
 import dagger.Component
 import javax.inject.Singleton
@@ -24,6 +30,12 @@ interface AppComponent {
     fun inject(presenter: PicturePresenter)
     fun inject(presenter: YoutubeVideoPresenter)
     fun inject(presenter: SearchPresenter)
+    fun inject(presenter: FavouriteListPresenter)
+
+    fun inject(interactor: FeedInteractor)
+    fun inject(interactor: SearchInteractor)
+    fun inject(interactor: PostInteractor)
+    fun inject(interactor: FavouriteListIneractor)
 
     fun inject(imageSaver: ImageSaver)
 
