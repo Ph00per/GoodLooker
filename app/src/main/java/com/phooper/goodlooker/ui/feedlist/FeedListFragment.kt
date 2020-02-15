@@ -1,8 +1,6 @@
 package com.phooper.goodlooker.ui.feedlist
 
 import android.os.Bundle
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,9 +12,9 @@ import com.phooper.goodlooker.presentation.feedlist.FeedlistPresenter
 import com.phooper.goodlooker.presentation.feedlist.FeedlistView
 import com.phooper.goodlooker.ui.drawer.DrawerFlowFragment
 import com.phooper.goodlooker.ui.global.BaseFragment
-import com.phooper.goodlooker.adapters.ConnectionRetryItemDelegateAdapter
-import com.phooper.goodlooker.adapters.LoadingItemDelegateAdapter
-import com.phooper.goodlooker.adapters.PostItemDelegateAdapter
+import com.phooper.goodlooker.ui.global.adapters.ConnectionRetryItemDelegateAdapter
+import com.phooper.goodlooker.ui.global.adapters.LoadingItemDelegateAdapter
+import com.phooper.goodlooker.ui.global.adapters.PostItemDelegateAdapter
 import kotlinx.android.synthetic.main.fragment_feedlist.*
 import kotlinx.android.synthetic.main.toolbar_hamburger.*
 import moxy.presenter.InjectPresenter

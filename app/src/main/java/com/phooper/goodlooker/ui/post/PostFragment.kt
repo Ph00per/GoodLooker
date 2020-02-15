@@ -8,9 +8,9 @@ import com.example.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
 import com.example.delegateadapter.delegate.diff.IComparableItem
 import com.muddzdev.styleabletoast.StyleableToast
 import com.phooper.goodlooker.R
-import com.phooper.goodlooker.adapters.*
-import com.phooper.goodlooker.adapters.adapter.H2ItemDelegateAdapter
-import com.phooper.goodlooker.adapters.adapter.H3ItemDelegateAdapter
+import com.phooper.goodlooker.ui.global.adapters.*
+import com.phooper.goodlooker.ui.global.adapters.adapter.H2ItemDelegateAdapter
+import com.phooper.goodlooker.ui.global.adapters.adapter.H3ItemDelegateAdapter
 import com.phooper.goodlooker.presentation.post.PostPresenter
 import com.phooper.goodlooker.presentation.post.PostView
 import com.phooper.goodlooker.ui.global.BaseFragment

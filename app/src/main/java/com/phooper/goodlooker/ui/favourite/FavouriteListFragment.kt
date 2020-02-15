@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.phooper.goodlooker.R
-import com.phooper.goodlooker.adapters.FavouritePostItemAdapter
+import com.phooper.goodlooker.ui.global.adapters.FavouritePostItemAdapter
 import com.phooper.goodlooker.entity.FavouritePost
 import com.phooper.goodlooker.presentation.favourite.FavouriteListPresenter
 import com.phooper.goodlooker.presentation.favourite.FavouriteListView

@@ -1,4 +1,4 @@
-package com.phooper.goodlooker.adapters
+package com.phooper.goodlooker.ui.global.adapters
 
 import android.view.LayoutInflater
 import android.view.View

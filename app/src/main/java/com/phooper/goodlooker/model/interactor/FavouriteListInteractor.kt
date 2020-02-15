@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class FavouriteListIneractor {
+class FavouriteListInteractor {
 
     init {
         App.daggerComponent.inject(this)

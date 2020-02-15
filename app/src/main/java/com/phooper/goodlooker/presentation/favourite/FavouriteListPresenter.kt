@@ -1,9 +1,8 @@
 package com.phooper.goodlooker.presentation.favourite
 
-import android.util.Log
 import com.phooper.goodlooker.App
 import com.phooper.goodlooker.Screens
-import com.phooper.goodlooker.model.interactor.FavouriteListIneractor
+import com.phooper.goodlooker.model.interactor.FavouriteListInteractor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -26,7 +25,7 @@ class FavouriteListPresenter : MvpPresenter<FavouriteListView>() {
     }
 
     @Inject
-    lateinit var favouriteListInteractor: FavouriteListIneractor
+    lateinit var favouriteListInteractor: FavouriteListInteractor
 
     override fun attachView(view: FavouriteListView?) {
         super.attachView(view)

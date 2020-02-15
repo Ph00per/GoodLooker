@@ -7,11 +7,10 @@ import com.phooper.goodlooker.presentation.post.PostPresenter
 import com.phooper.goodlooker.presentation.search.SearchPresenter
 import com.phooper.goodlooker.presentation.youtube.YoutubeVideoPresenter
 import com.phooper.goodlooker.ui.AppActivity
-import com.phooper.goodlooker.adapters.ImageItemDelegateAdapter
-import com.phooper.goodlooker.adapters.PostItemDelegateAdapter
-import com.phooper.goodlooker.adapters.YoutubeItemDelegateAdapter
-import com.phooper.goodlooker.entity.FavouritePost
-import com.phooper.goodlooker.model.interactor.FavouriteListIneractor
+import com.phooper.goodlooker.ui.global.adapters.ImageItemDelegateAdapter
+import com.phooper.goodlooker.ui.global.adapters.PostItemDelegateAdapter
+import com.phooper.goodlooker.ui.global.adapters.YoutubeItemDelegateAdapter
+import com.phooper.goodlooker.model.interactor.FavouriteListInteractor
 import com.phooper.goodlooker.model.interactor.FeedInteractor
 import com.phooper.goodlooker.model.interactor.PostInteractor
 import com.phooper.goodlooker.model.interactor.SearchInteractor
@@ -35,7 +34,7 @@ interface AppComponent {
     fun inject(interactor: FeedInteractor)
     fun inject(interactor: SearchInteractor)
     fun inject(interactor: PostInteractor)
-    fun inject(interactor: FavouriteListIneractor)
+    fun inject(interactor: FavouriteListInteractor)
 
     fun inject(imageSaver: ImageSaver)
 

@@ -5,14 +5,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.delegateadapter.delegate.diff.DiffUtilCompositeAdapter
 import com.example.delegateadapter.delegate.diff.IComparableItem
 import com.muddzdev.styleabletoast.StyleableToast
 import com.phooper.goodlooker.R
-import com.phooper.goodlooker.adapters.*
+import com.phooper.goodlooker.ui.global.adapters.*
 import com.phooper.goodlooker.entity.SearchHistory
 import com.phooper.goodlooker.presentation.search.SearchPresenter
 import com.phooper.goodlooker.presentation.search.SearchView

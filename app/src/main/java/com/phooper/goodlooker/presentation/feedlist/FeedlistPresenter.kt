@@ -111,24 +111,13 @@ class FeedlistPresenter(private val siteCat: Int) : MvpPresenter<FeedlistView>()
     }
 
 
-    fun onScrolled(dy: Int, total: Int?, lastVisibleItem: Int) {
-        if ((dy > 0) && (lastVisibleItem + 1 == total)) {
-            viewState.removeOnScrollListenerRV()
-            CoroutineScope(IO).launch { setNextPageData() }
-        }
-    }
-
-    fun onRVItemClicked(postLink: String) {
-        router.navigateTo(Screens.Post(postLink))
-    }
-
-
     private fun enterLoadingNewState() {
         viewState.apply {
             removeOnScrollListenerRV()
             startRefreshing()
         }
     }
+
 
     private fun exitLoadingNewState() {
         viewState.apply {
@@ -179,5 +168,16 @@ class FeedlistPresenter(private val siteCat: Int) : MvpPresenter<FeedlistView>()
 
     fun searchOnClicked() {
         router.navigateTo(Screens.Search)
+    }
+
+    fun onScrolled(dy: Int, total: Int?, lastVisibleItem: Int) {
+        if ((dy > 0) && (lastVisibleItem + 1 == total)) {
+            viewState.removeOnScrollListenerRV()
+            CoroutineScope(IO).launch { setNextPageData() }
+        }
+    }
+
+    fun onRVItemClicked(postLink: String) {
+        router.navigateTo(Screens.Post(postLink))
     }
 }

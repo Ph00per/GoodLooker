@@ -73,9 +73,6 @@ class DrawerPresenter : MvpPresenter<DrawerView>() {
                 router.navigateTo(
                     requestedScreen
                 )
-                if (requestedScreen == Screens.FavouriteList) {
-                    return
-                }
                 currentScreens.add(
                     requestedScreen
                 )

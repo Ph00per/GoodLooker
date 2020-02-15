@@ -10,7 +10,7 @@ import com.phooper.goodlooker.model.data.db.AppDb
 import com.phooper.goodlooker.model.data.db.dao.FavouritePostsDao
 import com.phooper.goodlooker.model.data.db.dao.SearchHistoryDao
 import com.phooper.goodlooker.model.data.site.Connector
-import com.phooper.goodlooker.model.interactor.FavouriteListIneractor
+import com.phooper.goodlooker.model.interactor.FavouriteListInteractor
 import com.phooper.goodlooker.model.interactor.FeedInteractor
 import com.phooper.goodlooker.model.interactor.PostInteractor
 import com.phooper.goodlooker.model.interactor.SearchInteractor
@@ -78,5 +78,5 @@ class AppModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideFavouriteListInteractor() = FavouriteListIneractor()
+    fun provideFavouriteListInteractor() = FavouriteListInteractor()
 }
