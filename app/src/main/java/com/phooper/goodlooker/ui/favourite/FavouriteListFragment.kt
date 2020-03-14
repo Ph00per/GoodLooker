@@ -3,6 +3,7 @@ package com.phooper.goodlooker.ui.favourite
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.phooper.goodlooker.R
 import com.phooper.goodlooker.ui.global.adapters.FavouritePostItemAdapter
 import com.phooper.goodlooker.entity.FavouritePost
@@ -30,7 +31,7 @@ class FavouriteListFragment : BaseFragment(), FavouriteListView {
 
     private fun initViews() {
         recycler_view.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context) as RecyclerView.LayoutManager?
             adapter = favouritePostAdapter.apply {
                 onItemClick = { link ->
                     presenter.postClicked(link)
@@ -47,10 +48,16 @@ class FavouriteListFragment : BaseFragment(), FavouriteListView {
     }
 
     override fun showNothingFound() {
+        recycler_view.visibility = View.GONE
         no_favourites_layout.visibility = View.VISIBLE
     }
 
-    override fun updateRecyclerList(listPosts: List<FavouritePost>) {
+    override fun hideNothingFound() {
+        recycler_view.visibility = View.VISIBLE
+        no_favourites_layout.visibility = View.GONE
+    }
+
+    override fun updateAndShowRecyclerList(listPosts: List<FavouritePost>) {
         favouritePostAdapter.setData(listPosts)
     }
 

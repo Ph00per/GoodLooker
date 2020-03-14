@@ -38,7 +38,8 @@ class FavouriteListPresenter : MvpPresenter<FavouriteListView>() {
                     if (it.isEmpty()) {
                         showNothingFound()
                     } else {
-                        updateRecyclerList(it)
+                        hideNothingFound()
+                        updateAndShowRecyclerList(it)
                     }
                 }
 

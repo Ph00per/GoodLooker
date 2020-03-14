@@ -8,12 +8,15 @@ import moxy.viewstate.strategy.*
 interface FavouriteListView : MvpView {
 
     @StateStrategyType(value = AddToEndSingleStrategy::class)
-    fun updateRecyclerList(listPosts: List<FavouritePost>)
+    fun updateAndShowRecyclerList(listPosts: List<FavouritePost>)
 
     @StateStrategyType(value = AddToEndSingleStrategy::class)
     fun setToolbarTitle(title: String)
 
     @StateStrategyType(value = AddToEndSingleStrategy::class)
     fun showNothingFound()
+
+    @StateStrategyType(value = AddToEndSingleStrategy::class)
+    fun hideNothingFound()
 
 }
